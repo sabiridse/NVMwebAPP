@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-npm install in each folder;
+npm install in every folder in which there is package.json;
 ```
 
 ### Compiles and hot-reloads for development
