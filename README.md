@@ -1,4 +1,4 @@
-# TestQ
+# Node.js + Vue.js + MongoDB project
 
 ## Project setup
 ```
