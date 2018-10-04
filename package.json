@@ -1,0 +1,13 @@
+{
+  "name": "autostart",
+  "version": "1.0.0",
+  "description": "autoStart all services",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd TestQ && npm run serve",
+    "start": "concurrent \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^1.0.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server-side",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "echo '8sim' | sudo service mongod start && npm run start",
+    "start": "nodemon --ext js --watch src"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "bluebird": "^3.5.2",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.6",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "nodemon": "^1.18.4",
+    "promise": "^8.0.1",
+    "sequelize": "^4.38.1"
+  }
+}
