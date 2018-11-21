@@ -47,10 +47,7 @@
     "env": {
       "node": true
     },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
+    "extends": ["plugin:vue/essential", "@vue/standard"],
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
@@ -61,9 +58,5 @@
       "autoprefixer": {}
     }
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
 }
