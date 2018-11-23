@@ -2,6 +2,22 @@
   <v-app id="inspire" :dark="dark">
     <v-navigation-drawer v-model="drawer" clipped fixed app :class="themes">
       <v-list dense>
+        <v-list-tile @click="dialogFormOnTable();">
+          <v-list-tile-action>
+            <v-icon color="red darken-4">alert</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="title">Новая запись</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon color="red darken-4">alert</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="title">Hot points</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile @click="">
           <v-list-tile-action>
             <v-icon color="orange accent-3">settings</v-icon>
@@ -98,6 +114,9 @@ export default {
       this.themes = this.dark == true ? "teal darken-2" : "blue lighten-2";
       this.topBarColor = this.dark == true ? "teal darken-4" : "blue lighten-4";
       this.dialog = false;
+    },
+    dialogFormOnTable() {
+      eventbus.$emit("dialogStart", "true");
     },
     searching(search) {
       eventbus.$emit("searchReq", this.search);

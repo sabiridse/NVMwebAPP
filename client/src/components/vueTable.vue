@@ -1,376 +1,194 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :search="search"
-    :rows-per-page-items="rowsPerPageItemsArray"
-    :rows-per-page-text="text"
-    no-data-text="нет данных"
-    no-results-text="нет данных"
-  >
-    <template slot="items" slot-scope="props">
-      <td class="text-xm-center">{{ props.item.Дата }}</td>
-      <td class="text-xm-center">{{ props.item.Приход }}</td>
-      <td class="text-xm-center">{{ props.item.Расход }}</td>
-      <td class="text-xm-center">{{ props.item.Остаток }}</td>
-      <td class="text-xm-center">{{ props.item.День_недели }}</td>
-    </template>
-  </v-data-table>
+  <div>
+    <v-dialog v-model="dialog" max-width="500px">
+      <!--
+        <v-btn :slot="activ" color="primary" dark class="mb-2"
+          >Новая запись</v-btn
+        >
+      -->
+      <v-card>
+        <v-card-title>
+          <span class="headline">{{ formTitle }}</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 sm6 md4>
+                <v-text-field
+                  v-model="editedItem.date"
+                  label="Дата"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field
+                  v-model="editedItem.plus"
+                  label="Приход"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field
+                  v-model="editedItem.minus"
+                  label="Расход"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field
+                  v-model="editedItem.cash"
+                  label="Остаток"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field
+                  v-model="editedItem.dayOfWeek"
+                  label="День_недели"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="close">Отмена</v-btn>
+          <v-btn color="blue darken-1" flat @click="save">Сохранить</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :search="search"
+      :rows-per-page-items="rowsPerPageItemsArray"
+      :rows-per-page-text="text"
+      no-data-text="нет данных"
+      no-results-text="нет данных"
+    >
+      <template slot="items" slot-scope="props">
+        <td class="text-xm-center">{{ props.item.date }}</td>
+        <td class="text-xm-center">{{ props.item.plus }}</td>
+        <td class="text-xm-center">{{ props.item.minus }}</td>
+        <td class="text-xm-center">{{ props.item.cash }}</td>
+        <td class="text-xm-center">{{ props.item.dayOfWeek }}</td>
+        <td class="text-xm-center">
+          <v-icon small class="mr-2" @click="editItem(props.item);">
+            edit
+          </v-icon>
+          <v-icon small @click="deleteItem(props.item);"> delete </v-icon>
+        </td>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 <script>
 import eventbus from "../plugins/eventbus.js";
 export default {
-  created() {
-    eventbus.$on("searchReq", this.searchData);
-  },
-  methods: {
-    searchData(value) {
-      this.search = value;
-    }
-  },
   data() {
     return {
+      dialog: false,
+      editedIndex: -1,
+      editedItem: {
+        date: "23.11.2018",
+        plus: 0,
+        minus: 0,
+        cash: 0,
+        dayOfWeek: "Четверг"
+      },
+      defaultItem: {
+        date: "01.01.2018",
+        plus: "0",
+        minus: "0",
+        cash: "0",
+        dayOfWeek: "0"
+      },
       search: "",
       text: "Строк на странице:",
       rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
       headers: [
         {
           text: "Дата",
-          value: "Дата",
+          value: "date",
           sortable: true
         },
         {
           text: "Приход",
-          value: "Приход",
+          value: "plus",
           sortable: true
         },
         {
           text: "Расход",
-          value: "Расход",
+          value: "minus",
           sortable: true
         },
         {
           text: "Остаток",
-          value: "Остаток",
+          value: "cash",
           sortable: true
         },
         {
           text: "День недели",
-          value: "День_недели",
+          value: "dayOfWeek",
           sortable: false
-        }
-      ],
-      items: [
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
         },
         {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
-        },
-        {
-          Дата: "01.10.2018",
-          Приход: "1000",
-          Расход: "100",
-          Остаток: "900",
-          День_недели: "Понедельник"
-        },
-        {
-          Приход: "0",
-          Расход: "200",
-          Дата: "02.10.2018",
-          Остаток: "700",
-          День_недели: "Вторник"
+          text: "Действие"
         }
       ]
     };
+  },
+  created() {
+    eventbus.$on("searchReq", this.searchData);
+    eventbus.$on("dialogStart", this.dialogStart);
+  },
+  methods: {
+    searchData(value) {
+      this.search = value;
+    },
+    editItem(item) {
+      this.editedIndex = this.items.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    deleteItem(item) {
+      const index = this.items.indexOf(item);
+      confirm("Удалить запись?") && this.items.splice(index, 1);
+    },
+    dialogStart(status) {
+      this.dialog = status;
+    },
+
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    save() {
+      // if (this.editedIndex > -1) {
+      //   Object.assign(this.items[this.editedIndex], this.editedItem);
+      // } else {
+      this.$store.dispatch("addNote", this.editedItem);
+      // }
+      this.close();
+    }
+  },
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "Новая запись" : "Изменить запись";
+    },
+    items() {
+      return this.$store.getters.items;
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
   }
 };
 </script>
