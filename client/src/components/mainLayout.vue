@@ -4,7 +4,7 @@
       <v-list dense>
         <v-list-tile @click="dialogFormOnTable();">
           <v-list-tile-action>
-            <v-icon color="red darken-4">alert</v-icon>
+            <v-icon color="orange lighten-3">fiber_new</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="title">Новая запись</v-list-tile-title>
@@ -12,7 +12,7 @@
         </v-list-tile>
         <v-list-tile @click="">
           <v-list-tile-action>
-            <v-icon color="red darken-4">alert</v-icon>
+            <v-icon color="red darken-4">flag</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="title">Hot points</v-list-tile-title>
