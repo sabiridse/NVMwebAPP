@@ -148,6 +148,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      //this.$store.dispatch("addNote", this.editedItem);
       this.dialog = true;
     },
 
@@ -168,11 +169,11 @@ export default {
     },
 
     save() {
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.items[this.editedIndex], this.editedItem);
-      // } else {
-      this.$store.dispatch("addNote", this.editedItem);
-      // }
+      if (this.editedIndex > -1) {
+        Object.assign(this.items[this.editedIndex], this.editedItem);
+      } else {
+        this.$store.dispatch("addNote", this.editedItem);
+      }
       this.close();
     }
   },
