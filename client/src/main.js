@@ -7,8 +7,8 @@ import store from "./store";
 //import ElementUI from 'element-ui'
 //import 'element-ui/lib/theme-chalk/index.css'
 import App from "./App.vue";
-import axios from "axios";
-import async from "async";
+//import axios from "axios";
+//import async from "async";
 // import Vuetify from 'vuetify'
 // import 'vuetify/dist/vuetify.min.css'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'

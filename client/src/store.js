@@ -42,8 +42,8 @@ export default new Vuex.Store({
     ADD_NOTE(state, note) {
       state.items.push(note);
     },
-    DEFULT_LIST(state, notes) {
-      state.items = notes;
+    ALL_LIST(state, list) {
+      state.items = list;
     }
   },
   getters: {

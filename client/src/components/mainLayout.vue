@@ -93,6 +93,7 @@
 <script>
 import vueTable from "./vueTable.vue";
 import eventbus from "../plugins/eventbus.js";
+import api from '../services/Controller'
 export default {
   data() {
     return {
