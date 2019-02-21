@@ -1,81 +1,4 @@
 <template>
-  <div>
-    <v-dialog v-model="dialog" max-width="500px">
-      <!--
-        <v-btn :slot="activ" color="primary" dark class="mb-2"
-          >Новая запись</v-btn
-        >
-      -->
-      <v-card>
-        <v-card-title>
-          <span class="headline">{{ formTitle }}</span>
-        </v-card-title>
-
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-menu
-        ref="menu"
-        :close-on-content-click="false"
-        v-model="menu"
-        :nudge-right="40"
-        :return-value.sync="date"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
-                <v-text-field
-          slot="activator"
-          v-model="date"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
-        </v-menu>
-                <!-- <v-text-field
-                  v-model="editedItem.date"
-                  label="Дата"
-                ></v-text-field> -->
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-model="editedItem.plus"
-                  label="Приход"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-model="editedItem.minus"
-                  label="Расход"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-model="editedItem.cash"
-                  label="Остаток"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field
-                  v-model="editedItem.dayOfWeek"
-                  label="День_недели"
-                ></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="close">Отмена</v-btn>
-          <v-btn color="blue darken-1" flat @click="save()">Сохранить</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <v-data-table
       :headers="headers"
       :items="items"
@@ -86,58 +9,44 @@
       no-results-text="нет данных"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
+        <td class="text-xm-center">{{ props.item.date }}</td>
         <td class="text-xm-center">{{ props.item.plus }}</td>
         <td class="text-xm-center">{{ props.item.minus }}</td>
         <td class="text-xm-center">{{ props.item.cash }}</td>
         <td class="text-xm-center">{{ props.item.dayOfWeek }}</td>
         <td class="text-xm-center">
-          <v-icon small class="mr-2" @click="editItem(props.item);">
+          <v-icon small class="mr-2" @click="">
             edit
           </v-icon>
-          <v-icon small @click="deleteItem(props.item);">delete_sweep</v-icon>
+          <v-icon small @click="">delete_sweep</v-icon>
         </td>
       </template>
     </v-data-table>
-  </div>
 </template>
 <script>
 import eventbus from "../plugins/eventbus.js";
 import api from '../services/Controller'
+//import payment from '../services/paymentItems'
 
 export default {
   data() {
     return {
-      daysOfWeek:[
-        'Воскресенье',
-        'Понедельник',
-        'Вторник',
-        'Среда',
-        'Четверг',
-        'Пятница',
-        'Суббота'
-      ],
-      date: new Date().toISOString().substr(0, 10),
-      menu2: false,
-      menu: false,
-      modal: false,
-      monthForm:[1,2,3,4,5,6,7,8,9,10,11,12],
-      dialog: false,
-      editedIndex: -1,
-      editedItem: {
-        date: 0,
-        plus: 0,
-        minus: 0,
-        cash: 0,
-        dayOfWeek: 0
-      },
-      defaultItem: {
-        date: 0,
-        plus: 0,
-        minus:0,
-        cash: 0,
-        dayOfWeek: 0
-      },
+      // dialog: false,
+      // editedIndex: -1,
+      // editedItem: {
+      //   date: 0,
+      //   plus: 0,
+      //   minus: 0,
+      //   cash: 0,
+      //   dayOfWeek: 0
+      // },
+      // defaultItem: {
+      //   date: 0,
+      //   plus: 0,
+      //   minus:0,
+      //   cash: 0,
+      //   dayOfWeek: 0
+      // },
       search: "",
       text: "Строк на странице:",
       rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
@@ -175,82 +84,82 @@ export default {
   },
   created() {
     eventbus.$on("searchReq", this.searchData);
-    eventbus.$on("dialogStart", this.dialogStart);
+    //eventbus.$on("dialogStart", this.dialogStart);
     api.selectAll();
+    //api.categoryList();
+    //payment.print(this.$store.getters.getNotesByCategoryes);
+
   },
   methods: {
 
-    changeDateFormat(stringDate){
-      let year = stringDate.substring(0, 4);
-      let month  = stringDate.substring(5, 7)+".";
-      let day= stringDate.substring(8, 10)+".";
-      return  day+month+year;
-    },
+    // changeDateFormat(stringDate){
+    //   let year = stringDate.substring(0, 4);
+    //   let month  = stringDate.substring(5, 7)+".";
+    //   let day= stringDate.substring(8, 10)+".";
+    //   return  day+month+year;
+    // },
     
     searchData(value) {
       this.search = value;
 
     },
-    editItem(item) {
+    // editItem(item) {
       
-      this.editedIndex = this.items.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+    //   this.editedIndex = this.items.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialog = true;
 
-    },
+    // },
 
-    deleteItem(item) {
-      confirm("Удалить запись?") && api.deleteNote(item._id);
-    },
-    dialogStart(status) {
-      this.dialog = status;
-    },
+    // deleteItem(item) {
+    //   confirm("Удалить запись?") && api.deleteNote(item._id);
+    // },
+    // dialogStart(status) {
+    //   this.dialog = status;
+    // },
 
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({},
-          {
-            date: new Date().getDate()+'.'+
-                  this.monthForm[new Date().getMonth()]+'.'+
-                  new Date().getFullYear(),
-            plus: 0,
-            minus:0,
-            cash: 0,
-            dayOfWeek: this.daysOfWeek[new Date().getDay()]
-          });
-        this.editedIndex = -1;
-      }, 300);
-    },
+    // close() {
+    //   this.dialog = false;
+    //   setTimeout(() => {
+    //     this.editedItem = Object.assign({},
+    //       {
+    //         date: new Date().getDate()+'.'+
+    //               this.monthForm[new Date().getMonth()]+'.'+
+    //               new Date().getFullYear(),
+    //         plus: 0,
+    //         minus:0,
+    //         cash: 0,
+    //         dayOfWeek: this.daysOfWeek[new Date().getDay()]
+    //       });
+    //     this.editedIndex = -1;
+    //   }, 300);
+    // },
 
-    save() {
-      if (this.editedIndex > -1) {
-        //edit
-        Object.assign(this.items[this.editedIndex], this.editedItem);
-        api.editNote(this.editedItem);
-      } else {
-        //new
-          api.addNewNote(this.editedItem);
-      }
-      this.close();
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     //edit
+    //     Object.assign(this.items[this.editedIndex], this.editedItem);
+    //     api.editNote(this.editedItem);
+    //   } else {
+    //     //new
+    //       api.addNewNote(this.editedItem);
+    //   }
+    //   this.close();
 
-    }
+    // }
   },
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "Новая запись" : "Изменить запись";
-    },
     items() {     
       return this.$store.getters.items;
     }
     
   },
 
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  }
+  // watch: {
+  //   dialog(val) {
+  //     val || this.close();
+  //   }
+  //}
 };
 </script>
 <style>

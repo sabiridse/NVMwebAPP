@@ -17,7 +17,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/selectAllCategoryes',(req,res) =>{
-		categoryes.find({}).exec(function(err, allCategoryes) {
+		categoryes.find({},{_id:0}).sort({category: 1}).exec(function(err, allCategoryes) {
 	    if (err) throw err;
 	     	res.send(allCategoryes); 
 		});

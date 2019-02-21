@@ -13,7 +13,7 @@ mongoose.connection
      console.log("************************************");
      console.log("Mongoose - successful connection ...");
 
-     require('./routes/everyDaysNotes')(app);
+     require('./routes/notesByCategoryes')(app);
      require('./routes/categoryes')(app);
 
     app.listen(process.env.PORT || config.port,

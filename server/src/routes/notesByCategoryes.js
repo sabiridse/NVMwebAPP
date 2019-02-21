@@ -1,36 +1,33 @@
-const everyDaysNotes = require('../models/everyDaysNotes')
+const notesByCategoryes = require('../models/notesByCategoryes')
 
 module.exports = function(app) {
 
-	app.post('/add_note', (req, res) => {
-	
-	  var new_note = new everyDaysNotes({
+	app.post('/add_noteByCategory', (req, res) => {
+	  var new_note = new notesByCategoryes({
 	    date:     req.body.date,
-	    plus:     req.body.plus,
-	    minus:    req.body.minus,
-	    cash:     req.body.cash,
-	    dayOfWeek:req.body.dayOfWeek,
-	    created:  req.body.created
-	  })
+	    category: req.body.category,
+	    cash:     req.body.cash
+	   })
 	  new_note.save(function (error) {
 		    if (error) {
 		      res.send(error);
 		    } else
 		      res.send({
-		      success: true
+		      success: true,
+		      new_note: new_note
 		    })
 	  	})
 	});
 
 	app.get('/selectAll',(req,res) =>{
-		everyDaysNotes.find({}).exec(function(err, allNotes) {
+		notesByCategoryes.find({}).exec(function(err, allNotes) {
 	    if (err) throw err;
 	     	res.send(allNotes); 
 		});
 	});
 
 	app.delete('/deleteNote/:id', (req, res) => {
-		everyDaysNotes.remove({
+		notesByCategoryes.remove({
 		   _id: req.params.id
 		  }, function(err, note){
 		    if (err){
@@ -44,7 +41,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/note/:id', (req, res) => {
-	  everyDaysNotes.find({_id: req.params.id}, function (error, note) {
+	  notesByCategoryes.find({_id: req.params.id}, function (error, note) {
 	    if (error) {
 	      res.send(error)
 	    } else {
@@ -54,7 +51,7 @@ module.exports = function(app) {
 	});
 
 	app.put('/editNote/:id', (req, res) => {
-		everyDaysNotes.findById(req.params.id, 'plus minus', function (error, note) {
+		notesByCategoryes.findById(req.params.id, 'plus minus', function (error, note) {
 		  if (error) { console.error(error); }
 		  note.plus =  req.body.plus;
 		  note.minus = req.body.minus;	
