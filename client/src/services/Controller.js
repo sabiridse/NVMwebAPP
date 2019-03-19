@@ -5,6 +5,9 @@ export default {
   
 	async addNewNoteByCategory(item) {
 		await Api().post('/add_noteByCategory',item);
+					// .then(response =>{
+					// 	console.log("response: "+response);***ответ сервера логировать по идее нужно
+		this.selectAll();
 	},
 
 	async addNewCategory(item) {

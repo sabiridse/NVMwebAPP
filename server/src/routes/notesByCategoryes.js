@@ -3,20 +3,25 @@ const notesByCategoryes = require('../models/notesByCategoryes')
 module.exports = function(app) {
 
 	app.post('/add_noteByCategory', (req, res) => {
-	  var new_note = new notesByCategoryes({
-	    date:     req.body.date,
-	    category: req.body.category,
-	    cash:     req.body.cash
-	   })
-	  new_note.save(function (error) {
-		    if (error) {
-		      res.send(error);
-		    } else
-		      res.send({
-		      success: true,
-		      new_note: new_note
-		    })
-	  	})
+			var errors =[];
+			for (i=0;i<req.body.length; i++) {
+				
+					new notesByCategoryes(
+					{
+					 date:     req.body[i].date,
+				     category: req.body[i].category,
+				     cash:     req.body[i].cash
+					}).save(function (err, done) {
+							if (err) errors.push(err);
+						 });  
+			}			    
+						    if(errors.length!=0){//***если есть ошибки
+						   		res.send(errors);//***ответ с ошибками
+						   	} else {
+						   		res.send({
+			 					 success: true
+			 					})
+						   	}
 	});
 
 	app.get('/selectAll',(req,res) =>{

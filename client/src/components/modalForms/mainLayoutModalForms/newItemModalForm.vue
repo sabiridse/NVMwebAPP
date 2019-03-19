@@ -93,7 +93,7 @@
             </v-container>         
           </v-layout>      
           <v-card-actions>
-            <v-btn round color="green darken-4" @click="save">Сохранить</v-btn>
+            <v-btn round color="green darken-4" @click="validationInputData">Сохранить</v-btn>
             <v-btn round color="red darken-4" @click="dialog = false">Закрыть</v-btn>
           </v-card-actions>     
       </v-card>
@@ -113,12 +113,12 @@
           date: new Date().toISOString().substr(0, 10),
           menu2: false,//calendar
           category: null,
-          day:null,
-          dateDay:null,
-          weekly:null,
+          day:1,
+          dateDay:1,
+          weekly:"Понедельник",
           dateOfMonthe:1,
           weeklysCount:["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"],
-          dateOfMonthe:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+          dateOfMonthe:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
           daysCount:[1,2,3,4,5,6,7,8,9,10,11,12,13,14],
           actionsTempl:["Интервал дней","День недели","Число месяца"],
           newNoteByCAtegory: {
@@ -148,16 +148,36 @@
         return (this.switchTemplate) ? "В ШАБЛОН" : "ОДНОКРАТНО";
       },
       switchProfitValue (){
-        if (this.cash !=null && this.cash == this.cash){//*******нужна проверка на NaN
+        if (this.cash !=null && !isNaN(this.cash)){
           return (this.switchProfit) ? this.cash : -this.cash ;
         } else {
            return null
           }
       },
+      validationInputData (){
 
-      async save(){
+        if (this.category !=null && this.switchProfitValue() !=null){
+          
+          this.validationForTemplateData();
+
+        } else {
+         alert ("Корректно укажите категорию и сумму!");
+        }
+
+      },
+
+      validationForTemplateData(){
+
+        if (this.switchTemplate && this.day ===null && this.weekly === null && this.dateDay === null) {
+          alert ("Не указан характер действия шаблона!");
+        } else this.save();
+
+
+      },
+
+       save(){
         try {
-          await service.assemblyData({
+           service.assemblyData({
                                     date:this.date,
                                     category:this.category,
                                     cash:this.switchProfitValue(),
@@ -167,11 +187,6 @@
                                     weekly:this.weekly,
                                     dateDay:this.dateDay
                                  });
-         // await api.addNewNoteByCategory({
-         //                            date:this.date,
-         //                            category:this.category,
-         //                            cash:this.cash * this.switchProfitValue()
-         //                         });
           this.day = null;
           this.dateDay = null;
           this.weekly = null;
@@ -181,7 +196,7 @@
           this.switchProfit = false; 
           this.switchTemplate = false;
         }  catch (err) {
-          alert ("Нет связи с базой данных!");
+          alert ("Нет связи с базой данных! "+err);
         }
                                                    
       }

@@ -11,10 +11,10 @@
         color="yellow"
         @click.stop="drawer = !drawer;"
       ></v-toolbar-side-icon>
-      <v-toolbar-title class="headline">Expert-budget</v-toolbar-title>
-   <v-spacer></v-spacer>
+    <v-toolbar-title class="headline">Expert-budget</v-toolbar-title>
+    <v-spacer></v-spacer>
         <newItemButton/>
-        <templatesButton/>
+        <tablesButton/>
         <hotPointsButton/>
         <settingsButton/>
         <changeThemeButton/>           
@@ -31,7 +31,11 @@
       </v-flex>
     </v-toolbar>
     <v-content>
-      <v-container justify-space-between> <vueTable /> </v-container>
+      <keep-alive>
+        <component v-bind:is="curientComponent"></component>
+      </keep-alive>
+      <!-- <v-container v-if="allTable"><vueTable /></v-container>
+      <v-container v-if="statisticTable"><statisticTable/></v-container>   -->
     </v-content>
     <v-footer app fixed> <span>&copy; 2018</span> </v-footer>
     <newItemModalForm/>
@@ -51,11 +55,12 @@ import changeThemeButton from "./buttons/mainLayoutButtons/changeThemeButton.vue
 
 import hotPointsButton from "./buttons/mainLayoutButtons/hotPointsButton.vue";
 
-import templatesButton from "./buttons/mainLayoutButtons/templatesButton.vue";
+import tablesButton from "./buttons/mainLayoutButtons/tablesButton.vue";
 
 import newCategoryModalForm from "./modalForms/mainLayoutModalForms/newCategoryModalForm.vue";
 
 import vueTable from "./vueTable.vue";
+import statisticTable from "./statisticTable.vue";
 
 import eventbus from "../plugins/eventbus.js";
 
@@ -68,18 +73,22 @@ export default {
     };
   },
   components: {
+    statisticTable,
     vueTable,
     settingsModalForm,
     settingsButton,
     newItemButton,
     newItemModalForm,
     changeThemeButton,
-    templatesButton,
+    tablesButton,
     hotPointsButton,
     newCategoryModalForm
 
   },
   computed: {
+      curientComponent: {
+        get(){return this.$store.getters.getCurientComponent}
+      },
       dark: {
         get(){return this.$store.getters.getDark},
         set(value){this.$store.commit('setDark',value)}

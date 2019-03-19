@@ -9,16 +9,13 @@
       no-results-text="нет данных"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xm-center">{{ props.item.date }}</td>
-        <td class="text-xm-center">{{ props.item.plus }}</td>
-        <td class="text-xm-center">{{ props.item.minus }}</td>
+        <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
+        <td class="text-xm-center">{{ props.item.category }}</td>
         <td class="text-xm-center">{{ props.item.cash }}</td>
-        <td class="text-xm-center">{{ props.item.dayOfWeek }}</td>
+        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
         <td class="text-xm-center">
-          <v-icon small class="mr-2" @click="">
-            edit
-          </v-icon>
-          <v-icon small @click="">delete_sweep</v-icon>
+          <v-icon small class="mr-2" @click="">edit</v-icon>
+          <v-icon small @click="groupingByDate()">delete_sweep</v-icon>
         </td>
       </template>
     </v-data-table>
@@ -57,17 +54,12 @@ export default {
           sortable: true
         },
         {
-          text: "Приход",
-          value: "plus",
+          text: "Категория",
+          value: "category",
           sortable: true
         },
         {
-          text: "Расход",
-          value: "minus",
-          sortable: true
-        },
-        {
-          text: "Остаток",
+          text: "Сумма",
           value: "cash",
           sortable: true
         },
@@ -92,92 +84,76 @@ export default {
   },
   methods: {
 
-    // changeDateFormat(stringDate){
-    //   let year = stringDate.substring(0, 4);
-    //   let month  = stringDate.substring(5, 7)+".";
-    //   let day= stringDate.substring(8, 10)+".";
-    //   return  day+month+year;
-    // },
-    
+    changeDateFormat(date){
+
+      return new Date(date).toISOString().substring(0,10);
+
+      // let year = stringDate.substring(0, 4)+".";
+      // let month  = stringDate.substring(5, 7)+".";
+      // let day= stringDate.substring(8, 10);
+      // return  year+month+day;
+    },
+    changeWeeklyDayFormat(date){
+
+      let dayInt = new Date(date).getDay();
+
+      switch(dayInt){
+        case 1: return "Понедельник"; break;
+        case 2: return "Вторник"; break;
+        case 3: return "Среда"; break;
+        case 4: return "Четверг"; break;
+        case 5: return "Пятница"; break;
+        case 6: return "Суббота"; break;
+        case 0: return "Воскресенье"; break;
+      }
+    },
     searchData(value) {
       this.search = value;
-
     },
-    // editItem(item) {
-      
-    //   this.editedIndex = this.items.indexOf(item);
-    //   this.editedItem = Object.assign({}, item);
-    //   this.dialog = true;
+    groupingByDate(){
 
-    // },
+      //********группировка записей по дате******************
+      var map = this.items.reduce((acc, cur)=>{
+        acc[cur.date] = acc[cur.date] || { 
+          date: new Date(cur.date),
+          dohod:0,
+          rashod:0,
+          cash: 0,
+          ostatok:0
+        };
+        (cur.cash > 0) ? (acc[cur.date].dohod = acc[cur.date].dohod + cur.cash) :
+                         (acc[cur.date].rashod = acc[cur.date].rashod + cur.cash);
 
-    // deleteItem(item) {
-    //   confirm("Удалить запись?") && api.deleteNote(item._id);
-    // },
-    // dialogStart(status) {
-    //   this.dialog = status;
-    // },
+        acc[cur.date].cash = acc[cur.date].cash + cur.cash;
+        
+        return acc;
+      },{});
+      var result = Object.values(map);
 
-    // close() {
-    //   this.dialog = false;
-    //   setTimeout(() => {
-    //     this.editedItem = Object.assign({},
-    //       {
-    //         date: new Date().getDate()+'.'+
-    //               this.monthForm[new Date().getMonth()]+'.'+
-    //               new Date().getFullYear(),
-    //         plus: 0,
-    //         minus:0,
-    //         cash: 0,
-    //         dayOfWeek: this.daysOfWeek[new Date().getDay()]
-    //       });
-    //     this.editedIndex = -1;
-    //   }, 300);
-    // },
+      //*******************сортировка по возрастанию даты************      
+      result.sort(function (next, prev) {
+        return next.date - prev.date;
+      });
 
-    // save() {
-    //   if (this.editedIndex > -1) {
-    //     //edit
-    //     Object.assign(this.items[this.editedIndex], this.editedItem);
-    //     api.editNote(this.editedItem);
-    //   } else {
-    //     //new
-    //       api.addNewNote(this.editedItem);
-    //   }
-    //   this.close();
+      var prevOstatok = 0;
+      result.forEach(elem => {
 
-    // }
+
+        elem.ostatok = elem.cash + prevOstatok;
+
+        prevOstatok = elem.ostatok;
+      })
+
+      console.log(result);
+    }    
   },
   computed: {
     items() {     
       return this.$store.getters.items;
-    }
-    
-  },
-
-  // watch: {
-  //   dialog(val) {
-  //     val || this.close();
-  //   }
-  //}
+    }   
+  }
 };
 </script>
 <style>
-/*tbody {
- 	margin-top: 20px;
-    background: red;
-    height: 700px;
-    overflow-y: scroll;
-}
-thead {
-	background: green;
-	position: fixed;
-}
-.theme--dark.v-datatable .v-datatable__actions {
-	background: blue;
-	position: fixed;
-}*/
-/** {
-	background: white;
-}*/
+
 </style>
