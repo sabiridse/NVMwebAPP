@@ -1,3 +1,5 @@
+![Image alt](https://github.com/sabiridse/NVMwebAPP/raw/master/client/public/screenMain.png)
+
 # Node.js + Vue.js + MongoDB project
 
 ## Project setup
