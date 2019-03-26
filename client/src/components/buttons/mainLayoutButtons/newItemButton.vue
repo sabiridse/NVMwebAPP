@@ -25,6 +25,7 @@ import api from '@/services/Controller'
     },
     methods: {
 	    dialogNewItem(status){
+          this.$store.dispatch('setDefaultPropsNIMF');
           api.categoryList();
 	        this.$store.commit('setNewItemModalFormStatus',status);
 	    },

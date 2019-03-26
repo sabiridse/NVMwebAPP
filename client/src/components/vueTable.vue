@@ -14,8 +14,8 @@
         <td class="text-xm-center">{{ props.item.cash }}</td>
         <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
         <td class="text-xm-center">
-          <v-icon small class="mr-2" @click="">edit</v-icon>
-          <v-icon small @click="groupingByDate()">delete_sweep</v-icon>
+          <v-icon small class="mr-2" @click="dialogNewItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete_sweep</v-icon>
         </td>
       </template>
     </v-data-table>
@@ -23,27 +23,10 @@
 <script>
 import eventbus from "../plugins/eventbus.js";
 import api from '../services/Controller'
-//import payment from '../services/paymentItems'
 
 export default {
   data() {
     return {
-      // dialog: false,
-      // editedIndex: -1,
-      // editedItem: {
-      //   date: 0,
-      //   plus: 0,
-      //   minus: 0,
-      //   cash: 0,
-      //   dayOfWeek: 0
-      // },
-      // defaultItem: {
-      //   date: 0,
-      //   plus: 0,
-      //   minus:0,
-      //   cash: 0,
-      //   dayOfWeek: 0
-      // },
       search: "",
       text: "Строк на странице:",
       rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
@@ -76,22 +59,21 @@ export default {
   },
   created() {
     eventbus.$on("searchReq", this.searchData);
-    //eventbus.$on("dialogStart", this.dialogStart);
     api.selectAll();
-    //api.categoryList();
-    //payment.print(this.$store.getters.getNotesByCategoryes);
-
   },
   methods: {
 
+    dialogNewItem(item){
+          api.categoryList();
+          this.$store.dispatch('setPropsNewItemModalForms',item);
+          this.$store.commit('setNewItemModalFormStatus',true);
+    }, 
+
+    deleteItem(item){
+      api.deleteNote(item._id);
+    },  
     changeDateFormat(date){
-
       return new Date(date).toISOString().substring(0,10);
-
-      // let year = stringDate.substring(0, 4)+".";
-      // let month  = stringDate.substring(5, 7)+".";
-      // let day= stringDate.substring(8, 10);
-      // return  year+month+day;
     },
     changeWeeklyDayFormat(date){
 
@@ -109,43 +91,7 @@ export default {
     },
     searchData(value) {
       this.search = value;
-    },
-    groupingByDate(){
-
-      //********группировка записей по дате******************
-      var map = this.items.reduce((acc, cur)=>{
-        acc[cur.date] = acc[cur.date] || { 
-          date: new Date(cur.date),
-          dohod:0,
-          rashod:0,
-          cash: 0,
-          ostatok:0
-        };
-        (cur.cash > 0) ? (acc[cur.date].dohod = acc[cur.date].dohod + cur.cash) :
-                         (acc[cur.date].rashod = acc[cur.date].rashod + cur.cash);
-
-        acc[cur.date].cash = acc[cur.date].cash + cur.cash;
-        
-        return acc;
-      },{});
-      var result = Object.values(map);
-
-      //*******************сортировка по возрастанию даты************      
-      result.sort(function (next, prev) {
-        return next.date - prev.date;
-      });
-
-      var prevOstatok = 0;
-      result.forEach(elem => {
-
-
-        elem.ostatok = elem.cash + prevOstatok;
-
-        prevOstatok = elem.ostatok;
-      })
-
-      console.log(result);
-    }    
+    }  
   },
   computed: {
     items() {     

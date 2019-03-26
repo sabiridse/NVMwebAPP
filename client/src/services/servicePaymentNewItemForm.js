@@ -20,7 +20,8 @@ export default {
 	},
 
 	 save (inputData) {
-		 api.addNewNoteByCategory(inputData);                
+	 	
+		api.addNewNoteByCategory(inputData);                
 	},
 
 	addDataInTemplate(dirtyInputData) {

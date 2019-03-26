@@ -1,36 +1,42 @@
 <template>
-    <v-data-table
+  <v-data-table
       :headers="headers"
       :items="items"
+      :expand="expand"
+      item-key="ostatok"
       :search="search"
       :rows-per-page-items="rowsPerPageItemsArray"
       :rows-per-page-text="text"
       no-data-text="нет данных"
       no-results-text="нет данных"
-    >
+  >
       <template slot="items" slot-scope="props">
-        <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
-        <td class="text-xm-center">{{ props.item.dohod }}</td>
-        <td class="text-xm-center">{{ props.item.rashod }}</td>
-        <td class="text-xm-center">{{ props.item.ostatok }}</td>
-        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
-        <td class="text-xm-center">
-          <!-- <v-icon small class="mr-2" @click="">edit</v-icon>
-          <v-icon small @click="">delete_sweep</v-icon> -->
-        </td>
+        <tr :class="alert" @click="props.expanded = !props.expanded; curientDate(props.item.date)">
+	        <td class="text-xm-center">{{ changeDateFormat(props.item) }}</td>
+	        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
+	        <td class="text-xm-center">{{ props.item.dohod }}</td>
+	        <td class="text-xm-center">{{ props.item.rashod }}</td>
+	        <td class="text-xm-center">{{ props.item.ostatok }}</td>	
+        </tr>        
       </template>
-    </v-data-table>
+      <template slot="expand" slot-scope="props">
+        <v-card flat>
+          <expandTable/>
+        </v-card>
+      </template>
+  </v-data-table>
 </template>
 <script>
 import eventbus from "../plugins/eventbus.js";
 import api from '../services/Controller'
-//import payment from '../services/paymentItems'
+import expandTable from "./expandTable.vue";
 
 export default {
   data() {
     return {
-      //result:[],
-     search: "",
+      alert: "",
+      expand: false,
+      search: "",
       text: "Строк на странице:",
       rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
       headers: [
@@ -38,6 +44,11 @@ export default {
           text: "Дата",
           value: "date",
           sortable: true
+        },
+        {
+          text: "День недели",
+          value: "dayOfWeek",
+          sortable: false
         },
         {
           text: "Приход",
@@ -53,29 +64,27 @@ export default {
           text: "Остаток",
           value: "ostatok",
           sortable: true
-        },
-        {
-          text: "День недели",
-          value: "dayOfWeek",
-          sortable: false
-        },
-        {
-          text: "Действие"
         }
+        
       ],
     };
   },
+  components: {
+    expandTable
+  },
   created() {
     eventbus.$on("searchReq", this.searchData);
-   api.selectAll();
-
+    api.selectAll();
 
   },
   methods: {
+    curientDate(cDate){
+        this.$store.dispatch("setCurientDate", cDate);
+    },
 
-    changeDateFormat(date){
-
-      return new Date(date).toISOString().substring(0,10);
+    changeDateFormat(item){
+      //item.ostatok < 2000 ? this.alert = "red" : this.alert = "";
+      return new Date(item.date).toISOString().substring(0,10);
     },
     changeWeeklyDayFormat(date){
 
@@ -100,16 +109,20 @@ export default {
   },
   	computed: {
 
+    
+
 		items(){
 
 	      //********группировка записей по дате******************
-	      var map = this.$store.getters.items.reduce((acc, cur)=>{
+        let allList = this.$store.getters.items.slice();
+	      var map = allList.reduce((acc, cur)=>{
 	        acc[cur.date] = acc[cur.date] || { 
 	          date: new Date(cur.date),
 	          dohod:0,
 	          rashod:0,
 	          cash: 0,
-	          ostatok:0
+	          ostatok:0,
+            id:0
 	        };
 	        (cur.cash > 0) ? (acc[cur.date].dohod = acc[cur.date].dohod + cur.cash) :
 	                         (acc[cur.date].rashod = acc[cur.date].rashod + cur.cash);
@@ -140,6 +153,6 @@ export default {
 	}  
 };
 </script>
-<style>
+<style scoped>
 
 </style>

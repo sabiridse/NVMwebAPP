@@ -15,7 +15,6 @@
     <v-spacer></v-spacer>
         <newItemButton/>
         <tablesButton/>
-        <hotPointsButton/>
         <settingsButton/>
         <changeThemeButton/>           
      <v-spacer></v-spacer>
@@ -34,8 +33,6 @@
       <keep-alive>
         <component v-bind:is="curientComponent"></component>
       </keep-alive>
-      <!-- <v-container v-if="allTable"><vueTable /></v-container>
-      <v-container v-if="statisticTable"><statisticTable/></v-container>   -->
     </v-content>
     <v-footer app fixed> <span>&copy; 2018</span> </v-footer>
     <newItemModalForm/>
@@ -52,8 +49,6 @@ import settingsButton from "./buttons/mainLayoutButtons/settingsButton.vue";
 import settingsModalForm from "./modalForms/mainLayoutModalForms/settingsModalForm.vue";
 
 import changeThemeButton from "./buttons/mainLayoutButtons/changeThemeButton.vue";
-
-import hotPointsButton from "./buttons/mainLayoutButtons/hotPointsButton.vue";
 
 import tablesButton from "./buttons/mainLayoutButtons/tablesButton.vue";
 
@@ -81,7 +76,6 @@ export default {
     newItemModalForm,
     changeThemeButton,
     tablesButton,
-    hotPointsButton,
     newCategoryModalForm
 
   },

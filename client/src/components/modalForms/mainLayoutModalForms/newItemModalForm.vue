@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="290px">
       <v-card>
-        <v-card-title class="text-xl-center">Новая запись в таблицу</v-card-title>    
+        <v-card-title class="text-xl-center">{{title}}</v-card-title>    
           <v-layout column>
             <v-flex>
                 <v-menu
@@ -94,25 +94,29 @@
           </v-layout>      
           <v-card-actions>
             <v-btn round color="green darken-4" @click="validationInputData">Сохранить</v-btn>
-            <v-btn round color="red darken-4" @click="dialog = false">Закрыть</v-btn>
+            <v-btn round color="red darken-4" @click="close">Закрыть</v-btn>
           </v-card-actions>     
       </v-card>
     </v-dialog>
 </template>
 <script>
   import service from '@/services/servicePaymentNewItemForm'
+  import api from '@/services/Controller'
   export default {
     data() {
       return {
+        id:0,
+        title: "",
+        defaultProps: null,                //************
         actionTemplates:null,
         monthes:1,
           panel:false,
           switchTemplate:false,
-          switchProfit: false,
-          cash:null,
-          date: new Date().toISOString().substr(0, 10),
+          switchProfit: false,                         //************
+          cash:null,                                   //************
+          date: new Date().toISOString().substr(0, 10),//************
           menu2: false,//calendar
-          category: null,
+          category: null,                              //************
           day:1,
           dateDay:1,
           weekly:"Понедельник",
@@ -121,19 +125,19 @@
           dateOfMonthe:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
           daysCount:[1,2,3,4,5,6,7,8,9,10,11,12,13,14],
           actionsTempl:["Интервал дней","День недели","Число месяца"],
-          newNoteByCAtegory: {
-            date:null,
-            category:null,
-            cash:null
-          }
+          // newNoteByCAtegory: {
+          //   date:null,
+          //   category:null,
+          //   cash:null
+          // }
       }
     },
     created (){
-      
+
     },
     computed: {
     		dialog: {  			
-      		get(){return this.$store.getters.getNewItemModalFormStatus;},
+      		get(){this.setDefaultProps(); return this.$store.getters.getNewItemModalFormStatus;},
       		set(value){this.$store.commit('setNewItemModalFormStatus',value)}
     		},
         categoryesList: {       
@@ -154,6 +158,22 @@
            return null
           }
       },
+
+      setDefaultProps(){
+        this.defaultProps = this.$store.getters.getPropsNewItemModalForms;
+        this.title = this.defaultProps.title;
+        this.switchProfit = this.defaultProps.switchProfit;
+        this.cash = Math.abs(this.defaultProps.cash);
+        this.date = this.defaultProps.date;
+        this.category = this.defaultProps.category;
+        this.id = this.defaultProps.id;
+      },
+
+      close(){
+        this.dialog = false;
+        this.$store.dispatch('setDefaultPropsNIMF');
+      },
+
       validationInputData (){
 
         if (this.category !=null && this.switchProfitValue() !=null){
@@ -170,9 +190,14 @@
 
         if (this.switchTemplate && this.day ===null && this.weekly === null && this.dateDay === null) {
           alert ("Не указан характер действия шаблона!");
-        } else this.save();
+        } else (this.id != 0) ? this.replaceItem() : this.save();
 
 
+      },
+
+      replaceItem(){
+        api.deleteNote(this.id);
+        this.save();
       },
 
        save(){
