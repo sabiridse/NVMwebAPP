@@ -11,7 +11,8 @@
       no-results-text="нет данных"
   >
       <template slot="items" slot-scope="props">
-        <tr :class="alert" @click="props.expanded = !props.expanded; curientDate(props.item.date)">
+        <tr v-bind:class="[props.item.ostatok < alertLimit ? 'red--text' : '']" 
+            @click="props.expanded = !props.expanded; curientDate(props.item.date)">
 	        <td class="text-xm-center">{{ changeDateFormat(props.item) }}</td>
 	        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
 	        <td class="text-xm-center">{{ props.item.dohod }}</td>
@@ -83,7 +84,6 @@ export default {
     },
 
     changeDateFormat(item){
-      //item.ostatok < 2000 ? this.alert = "red" : this.alert = "";
       return new Date(item.date).toISOString().substring(0,10);
     },
     changeWeeklyDayFormat(date){
@@ -109,7 +109,11 @@ export default {
   },
   	computed: {
 
-    
+    alertLimit(){
+
+      return this.$store.getters.getAlertLimit;
+
+    },
 
 		items(){
 
@@ -146,6 +150,8 @@ export default {
 
 	        prevOstatok = elem.ostatok;
 	      })
+        this.$store.commit('STATISTIC_TABLE_DATA',addResult);
+
 	      return addResult;
 
 	    }    

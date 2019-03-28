@@ -1,5 +1,7 @@
 export default {
   state: {
+    alertLimit: 2000,
+    statisticTableDataList:[],
     items: [],
     categoryesList:[],
     oneDayItems:[],
@@ -46,7 +48,8 @@ export default {
     },
     setDefaultPropsNIMF({commit}){
       commit("DEF_PROPS_NIMF");
-    }
+    },
+
 
 
   },
@@ -66,9 +69,21 @@ export default {
     },
     PROPS_NIMF(state, props){
       state.propsNewItemModalForms = props;
+    },
+    ALERT_LIMIT(state, value){
+      state.alertLimit = value;
+    },
+    STATISTIC_TABLE_DATA(state, list){
+      state.statisticTableDataList = list;
     }
   },
   getters: {
+    getStatisticTableDataList(state){
+      return state.statisticTableDataList;
+    },
+    getAlertLimit(state){
+      return state.alertLimit;
+    },
     items(state) {
       return state.items;
     },

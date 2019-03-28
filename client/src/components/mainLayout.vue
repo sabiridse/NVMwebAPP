@@ -1,8 +1,19 @@
 <template>
   <v-app id="inspire" :dark="dark">
     <v-navigation-drawer v-model="drawer" clipped fixed app :class="themes">
-      <v-list dense>
-          
+      <v-list dense >
+        <v-container xs10 offset-xs1 text-xs-center>
+          <p class="text-xm-center">Нижний лимит</p>
+          <v-slider 
+            v-model="alertLimit"
+            :label="`${alertLimit} руб.`"
+            :max="10000"
+            :min="0"
+            step="1000">
+          </v-slider>
+            <p class="text-xm-center">Горячие точки</p>
+          <hotPointsTable/>
+        </v-container> 
       </v-list>
     </v-navigation-drawer>
 
@@ -55,6 +66,7 @@ import tablesButton from "./buttons/mainLayoutButtons/tablesButton.vue";
 import newCategoryModalForm from "./modalForms/mainLayoutModalForms/newCategoryModalForm.vue";
 
 import vueTable from "./vueTable.vue";
+import hotPointsTable from "./horPointsTable.vue";
 import statisticTable from "./statisticTable.vue";
 
 import eventbus from "../plugins/eventbus.js";
@@ -68,6 +80,7 @@ export default {
     };
   },
   components: {
+    hotPointsTable,
     statisticTable,
     vueTable,
     settingsModalForm,
@@ -94,6 +107,10 @@ export default {
       topBarColor: {
         get(){return this.$store.getters.getTopBarColor},
         set(value){this.$store.commit('setTopBarColor',value)}
+      },
+      alertLimit:{
+        get(){return this.$store.getters.getAlertLimit},
+        set(value){this.$store.commit('ALERT_LIMIT',value)}
       }
   },
   methods: {
