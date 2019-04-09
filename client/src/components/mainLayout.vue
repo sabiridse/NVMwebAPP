@@ -3,17 +3,38 @@
     <v-navigation-drawer v-model="drawer" clipped fixed app :class="themes">
       <v-list dense >
         <v-container xs10 offset-xs1 text-xs-center>
-          <p class="text-xm-center">Нижний лимит</p>
-          <v-slider 
-            v-model="alertLimit"
-            :label="`${alertLimit} руб.`"
-            :max="10000"
-            :min="0"
-            step="1000">
-          </v-slider>
-            <p class="text-xm-center">Горячие точки</p>
-          <hotPointsTable/>
-        </v-container> 
+          <v-btn flat class="title"  @click="expand1 = !expand1">Сбережения</v-btn>
+          <template v-if="expand1">
+            <v-card flat>
+            <p :class="themes+' orange--text'">На сегодня {{stashCash}} р.</p>
+          </v-card>
+          </template>
+          <v-btn flat class="title" @click="expand2 = !expand2">Нижний лимит</v-btn>
+            <template v-if="expand2">
+              <v-card flat :class="themes">
+                <v-slider 
+                v-model="alertLimit"
+                :label="`${alertLimit} руб.`"
+                :max="10000"
+                :min="0"
+                step="1000">
+              </v-slider>
+             </v-card>
+          </template>          
+          <v-btn flat class="title"  @click="expand3 = !expand3">Горячие точки</v-btn>
+          <template v-if="expand3">
+            <v-card flat>
+            <hotPointsTable/>
+          </v-card>
+          </template>
+          <v-btn flat class="title"  @click="expand4 = !expand4">Статистика</v-btn>
+          <template v-if="expand4">
+            <v-card flat :class="themes">
+            <dataPickers/>
+          </v-card>
+          </template>
+          
+        </v-container>
       </v-list>
     </v-navigation-drawer>
 
@@ -49,12 +70,14 @@
     <newItemModalForm/>
     <settingsModalForm/>
     <newCategoryModalForm/>
+    <statisticModalForm/>
   </v-app>
 </template>
 
 <script>
 import newItemButton from "./buttons/mainLayoutButtons/newItemButton.vue";
 import newItemModalForm from "./modalForms/mainLayoutModalForms/newItemModalForm.vue";
+import statisticModalForm from "./modalForms/statisticModalForm.vue";
 
 import settingsButton from "./buttons/mainLayoutButtons/settingsButton.vue";
 import settingsModalForm from "./modalForms/mainLayoutModalForms/settingsModalForm.vue";
@@ -66,6 +89,7 @@ import tablesButton from "./buttons/mainLayoutButtons/tablesButton.vue";
 import newCategoryModalForm from "./modalForms/mainLayoutModalForms/newCategoryModalForm.vue";
 
 import vueTable from "./vueTable.vue";
+import dataPickers from "./dataPickers.vue";
 import hotPointsTable from "./horPointsTable.vue";
 import statisticTable from "./statisticTable.vue";
 
@@ -74,12 +98,20 @@ import eventbus from "../plugins/eventbus.js";
 export default {
   data() {
     return {
+      date1: new Date().toISOString().substr(0, 10),
+      date2: new Date().toISOString().substr(0, 10),
+      menu2: false,
+      expand1: false,
+      expand2: false,
+      expand3: false,
+      expand4: false,
       drawer: null,
       dialog: false,
       search: ""
     };
   },
   components: {
+    dataPickers,
     hotPointsTable,
     statisticTable,
     vueTable,
@@ -89,7 +121,8 @@ export default {
     newItemModalForm,
     changeThemeButton,
     tablesButton,
-    newCategoryModalForm
+    newCategoryModalForm,
+    statisticModalForm
 
   },
   computed: {
@@ -111,11 +144,37 @@ export default {
       alertLimit:{
         get(){return this.$store.getters.getAlertLimit},
         set(value){this.$store.commit('ALERT_LIMIT',value)}
-      }
+      },
+      stashCash:{ 
+        get(){
+          return this.$store.getters.items.reduce((sum,elem) => 
+                      elem.category == "Заначка" ? 
+                        new Date(elem.date) < new Date() ?
+                        sum + elem.cash*-1 : 
+                        sum : 
+                      0);
+        }
+      } 
   },
   methods: {
     searching(search) {
       eventbus.$emit("searchReq", this.search);
+    },
+
+    stashPayments(elem){
+
+      if (elem.category == "Заначка") {
+        if (new Date(elem.date) < new Date()) {
+          console.log(new Date(elem.date));
+          return true;
+        } else {
+          return false;
+        }
+
+      } else {
+        return false;
+      }
+
     }
   }
 };

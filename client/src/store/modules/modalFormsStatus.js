@@ -3,7 +3,8 @@ export default {
 	    settingsModalFormStatus: false,
 	    newItemModalFormStatus: false,
 	    changeThemeModalFormStatus: false,
-	    NewItemModalFormStatus: false
+	    NewItemModalFormStatus: false,
+	    statisticModalFormStatus: false
 	  },
 	  actions: {
 	  },
@@ -19,6 +20,9 @@ export default {
 	    },
 	    setNewCategoryModalFormStatus(state, status){
 	      state.NewItemModalFormStatus = status;
+	    },
+	    setStatisticModalFormStatus(state, status){
+	      state.statisticModalFormStatus = status;
 	    }
 	  },
 	  getters: {
@@ -33,6 +37,9 @@ export default {
 	    },
 	    getNewCategoryModalFormStatus(state){
 	      return state.NewItemModalFormStatus;
+	    },
+	    getStatisticModalFormStatus(state){
+	      return state.statisticModalFormStatus;
 	    }
 	  }
 }

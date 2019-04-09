@@ -71,20 +71,16 @@
                               </v-select>
                             </v-flex>
                             <v-flex>
-                              <v-select
+                              <p 
                                 v-if="actionTemplates==actionsTempl[1]"
-                                v-model="weekly"
-                                :items="weeklysCount"
-                                solo>    
-                              </v-select>
+                                class="text-xl-left"
+                              >кажд. {{dayOfWeek()}}</p>
                             </v-flex>
                             <v-flex>
-                              <v-select
+                              <p 
                                 v-if="actionTemplates==actionsTempl[2]"
-                                v-model="dateDay"
-                                :items="dateOfMonthe"
-                                solo>    
-                              </v-select>         
+                                class="text-xl-left"
+                              >кажд. {{dataOfMounth()}} число</p>       
                             </v-flex>
                       </v-layout>
                     </transition>
@@ -117,19 +113,12 @@
           date: new Date().toISOString().substr(0, 10),//************
           menu2: false,//calendar
           category: null,                              //************
-          day:1,
-          dateDay:1,
-          weekly:"Понедельник",
-          dateOfMonthe:1,
-          weeklysCount:["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"],
-          dateOfMonthe:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+          day:null,
+          dateDay:null,
+          weekly:null,
+          weeklysCount:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
           daysCount:[1,2,3,4,5,6,7,8,9,10,11,12,13,14],
           actionsTempl:["Интервал дней","День недели","Число месяца"],
-          // newNoteByCAtegory: {
-          //   date:null,
-          //   category:null,
-          //   cash:null
-          // }
       }
     },
     created (){
@@ -145,6 +134,18 @@
         }
 	  }	,
     methods:{
+
+      dayOfWeek(){
+        let dayNumber = new Date(this.date).getDay();
+        this.weekly = this.weeklysCount[dayNumber];
+        return this.weekly;
+      },
+      dataOfMounth(){ 
+        this.dateDay =  new Date(this.date).getDate();
+        return this.dateDay;
+      },
+
+
       switchProfitStatus (){
         return (this.switchProfit) ? "ДОХОД" : "РАСХОД";
       },
@@ -153,7 +154,7 @@
       },
       switchProfitValue (){
         if (this.cash !=null && !isNaN(this.cash)){
-          return (this.switchProfit) ? this.cash : -this.cash ;
+          return (this.switchProfit) ? +this.cash : -this.cash ;
         } else {
            return null
           }
@@ -190,8 +191,8 @@
 
         if (this.switchTemplate && this.day ===null && this.weekly === null && this.dateDay === null) {
           alert ("Не указан характер действия шаблона!");
-        } else (this.id != 0) ? this.replaceItem() : this.save();
 
+        } else (this.id != 0) ? this.replaceItem() : this.save();
 
       },
 

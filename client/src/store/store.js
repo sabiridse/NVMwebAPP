@@ -4,6 +4,7 @@ import modalFormsStatus from "./modules/modalFormsStatus"
 import crudOperations from "./modules/crudOperations"
 import changeTheme from "./modules/changeTheme"
 import tablesSwitcher from "./modules/tablesSwitcher"
+import statistic from "./modules/statistic"
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   	modalFormsStatus,
   	crudOperations,
   	changeTheme,
-  	tablesSwitcher
+  	tablesSwitcher,
+  	statistic
   }
 })

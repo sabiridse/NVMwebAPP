@@ -1,7 +1,7 @@
 <template>
     <v-data-table
       :items="hotPointsList"
- 	  hide-actions
+ 	    hide-actions
       hide-headers
       
     >
@@ -29,9 +29,7 @@ export default {
     hotPointsList:{ 	
     	get(){
     		let allList = this.$store.getters.getStatisticTableDataList.slice();
-    		return allList.filter(elem => this.addHotPoints(elem, allList))
-    									  
-    									
+    		return allList.filter(elem => this.addHotPoints(elem, allList))  									   									
     	}
     }  
   },
@@ -45,7 +43,11 @@ export default {
 	   	let nextElem = allList.slice(elemIndex+1, elemIndex+2);
 	   	let	nextOstatok = nextElem[0].ostatok;
 	   	let status;
-	   (elem.ostatok < nextOstatok && new Date(elem.date) > new Date()) ? status=true : status=false;
+	   (elem.ostatok < nextOstatok 
+	   	&& new Date(elem.date) > new Date()
+	   	&& new Date(elem.date) < new Date()
+	   							.setMonth(new Date()
+	   									  .getMonth() + 4)) ? status=true : status=false;
 	   return status;
     } else return false
    } 
