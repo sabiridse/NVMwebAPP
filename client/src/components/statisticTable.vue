@@ -11,13 +11,15 @@
       no-results-text="нет данных"
   >
       <template slot="items" slot-scope="props">
-        <tr v-bind:class="[props.item.ostatok < alertLimit ? 'red--text' : '']" 
+        <tr v-bind:class="[weekend(props.item.date) ? 'blue darken-4' : '']" 
             @click="props.expanded = !props.expanded; curientDate(props.item.date)">
 	        <td class="text-xm-center">{{ changeDateFormat(props.item) }}</td>
 	        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
 	        <td class="text-xm-center">{{ props.item.dohod }}</td>
 	        <td class="text-xm-center">{{ props.item.rashod }}</td>
-	        <td class="text-xm-center">{{ props.item.ostatok }}</td>	
+	        <td v-bind:class="[props.item.ostatok < alertLimit ? 'text-xm-center red--text':'text-xm-center']">
+            {{ props.item.ostatok }}
+          </td>	
         </tr>        
       </template>
       <template slot="expand" slot-scope="props">
@@ -99,6 +101,10 @@ export default {
         case 6: return "Суббота"; break;
         case 0: return "Воскресенье"; break;
       }
+    },
+    weekend(value){
+
+      return new Date(value).getDay() == 6 || new Date(value).getDay() == 0 ? true:false;
     },
     searchData(value) {
       this.search = value;

@@ -71,6 +71,7 @@
     <settingsModalForm/>
     <newCategoryModalForm/>
     <statisticModalForm/>
+    <statisticGraphicModalForm/>
   </v-app>
 </template>
 
@@ -78,6 +79,7 @@
 import newItemButton from "./buttons/mainLayoutButtons/newItemButton.vue";
 import newItemModalForm from "./modalForms/mainLayoutModalForms/newItemModalForm.vue";
 import statisticModalForm from "./modalForms/statisticModalForm.vue";
+import statisticGraphicModalForm from "./modalForms/statisticGraphicModalForm.vue";
 
 import settingsButton from "./buttons/mainLayoutButtons/settingsButton.vue";
 import settingsModalForm from "./modalForms/mainLayoutModalForms/settingsModalForm.vue";
@@ -92,6 +94,10 @@ import vueTable from "./vueTable.vue";
 import dataPickers from "./dataPickers.vue";
 import hotPointsTable from "./horPointsTable.vue";
 import statisticTable from "./statisticTable.vue";
+import categoryStataTable from "./categoryStataTable.vue";
+import statPanel from "./statPanel.vue";
+import graphicsStat from "./graphicsStat.vue";
+
 
 import eventbus from "../plugins/eventbus.js";
 
@@ -111,9 +117,12 @@ export default {
     };
   },
   components: {
+    statPanel,
     dataPickers,
     hotPointsTable,
     statisticTable,
+    graphicsStat,
+    categoryStataTable,
     vueTable,
     settingsModalForm,
     settingsButton,
@@ -122,7 +131,8 @@ export default {
     changeThemeButton,
     tablesButton,
     newCategoryModalForm,
-    statisticModalForm
+    statisticModalForm,
+    statisticGraphicModalForm
 
   },
   computed: {
@@ -147,34 +157,18 @@ export default {
       },
       stashCash:{ 
         get(){
-          return this.$store.getters.items.reduce((sum,elem) => 
-                      elem.category == "Заначка" ? 
-                        new Date(elem.date) < new Date() ?
-                        sum + elem.cash*-1 : 
-                        sum : 
-                      0);
+          let cashArr=[];
+          this.$store.getters.items
+              .filter(elem => elem.category == "Заначка" &&
+                              new Date(elem.date) < new Date())
+              .forEach(elem => cashArr.push(elem.cash*-1));         
+          return cashArr.reduce((sum,elem)=> sum+elem);
         }
       } 
   },
   methods: {
     searching(search) {
       eventbus.$emit("searchReq", this.search);
-    },
-
-    stashPayments(elem){
-
-      if (elem.category == "Заначка") {
-        if (new Date(elem.date) < new Date()) {
-          console.log(new Date(elem.date));
-          return true;
-        } else {
-          return false;
-        }
-
-      } else {
-        return false;
-      }
-
     }
   }
 };

@@ -9,14 +9,16 @@
       no-results-text="нет данных"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
-        <td class="text-xm-center">{{ props.item.category }}</td>
-        <td class="text-xm-center">{{ props.item.cash }}</td>
-        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
-        <td class="text-xm-center">
-          <v-icon small class="mr-2" @click="dialogNewItem(props.item)">edit</v-icon>
-          <v-icon small @click="deleteItem(props.item)">delete_sweep</v-icon>
-        </td>
+        <tr v-bind:class="[weekend(props.item.date) ? 'blue darken-4' : '']">
+          <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
+          <td class="text-xm-center">{{ props.item.category }}</td>
+          <td class="text-xm-center">{{ props.item.cash }}</td>
+          <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
+          <td class="text-xm-center">
+            <v-icon small class="mr-2" @click="dialogNewItem(props.item)">edit</v-icon>
+            <v-icon small @click="deleteItem(props.item)">delete_sweep</v-icon>
+          </td>
+        </tr>
       </template>
     </v-data-table>
 </template>
@@ -52,7 +54,8 @@ export default {
           sortable: false
         },
         {
-          text: "Действие"
+          text: "Действие",
+          value:""
         }
       ],
     };
@@ -91,7 +94,11 @@ export default {
     },
     searchData(value) {
       this.search = value;
-    }  
+    },
+     weekend(value){
+
+      return new Date(value).getDay() == 6 || new Date(value).getDay() == 0 ? true:false;
+    },  
   },
   computed: {
     items() {     

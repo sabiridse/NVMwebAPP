@@ -4,7 +4,8 @@ export default {
 	    newItemModalFormStatus: false,
 	    changeThemeModalFormStatus: false,
 	    NewItemModalFormStatus: false,
-	    statisticModalFormStatus: false
+	    statisticModalFormStatus: false,
+	    statisticGraphicModalFormStatus: false,
 	  },
 	  actions: {
 	  },
@@ -23,6 +24,9 @@ export default {
 	    },
 	    setStatisticModalFormStatus(state, status){
 	      state.statisticModalFormStatus = status;
+	    },
+	    setStatisticGraphicModalFormStatus(state, status){
+	      state.statisticGraphicModalFormStatus = status;
 	    }
 	  },
 	  getters: {
@@ -40,6 +44,9 @@ export default {
 	    },
 	    getStatisticModalFormStatus(state){
 	      return state.statisticModalFormStatus;
+	    },
+	    getStatisticGraphicModalFormStatus(state){
+	      return state.statisticGraphicModalFormStatus;
 	    }
 	  }
 }
