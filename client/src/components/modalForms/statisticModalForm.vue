@@ -97,6 +97,7 @@
 	     							});
 	     	this.$store.commit('setDataForGraphic',dataForGraphic);
 	     	this.$store.commit('setStatisticGraphicModalFormStatus',true);
+	     	console.trace();
 	    },
 	    repayCash(value){
 	    	return value < 0 ? value*-1 : value;

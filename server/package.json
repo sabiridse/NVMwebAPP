@@ -4,7 +4,7 @@
   "description": "server-side",
   "main": "src/index.js",
   "scripts": {
-    "dev": "echo '8sim' | sudo service mongod start && npm run start",
+    "dev": "echo '8sim' | sudo -S service mongod start && npm run start",
     "start": "nodemon --ext js --watch src"
   },
   "author": "",
