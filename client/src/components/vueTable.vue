@@ -7,11 +7,14 @@
       :rows-per-page-text="text"
       no-data-text="нет данных"
       no-results-text="нет данных"
+      :pagination.sync="pagination"
+      
     >
       <template slot="items" slot-scope="props">
         <tr v-bind:class="[weekend(props.item.date) ? 'blue darken-4' : '']">
           <td class="text-xm-center">{{ changeDateFormat(props.item.date) }}</td>
           <td class="text-xm-center">{{ props.item.category }}</td>
+         <!--  <td class="text-xm-center">{{ pagination.page }}</td> -->
           <td class="text-xm-center">{{ props.item.cash }}</td>
           <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
           <td class="text-xm-center">
@@ -30,8 +33,9 @@ export default {
   data() {
     return {
       search: "",
+      pagination: {},
       text: "Строк на странице:",
-      rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
+      rowsPerPageItemsArray: [90, 45, 15, { text: "Все", value: -1 }],
       headers: [
         {
           text: "Дата",
@@ -62,8 +66,17 @@ export default {
   },
   created() {
     eventbus.$on("searchReq", this.searchData);
+    
     api.selectAll();
+
+
   },
+  // watch: {
+  //   "pagination": (newPage) => {
+  //     console.log(newPage);
+  //   }
+  // },
+
   methods: {
 
     dialogNewItem(item){

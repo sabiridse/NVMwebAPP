@@ -1,10 +1,14 @@
+
+
 export default {
 	state: {
 	    dark: true,
 	    themes: "teal darken-2",
-	    topBarColor: "teal darken-4"
+	    topBarColor: "teal darken-4",
+	    
 	},
 	actions: {
+		
 	},
 	mutations: {
 	    setDark(state, status){
@@ -16,6 +20,7 @@ export default {
 	    setTopBarColor(state, status){
 	      state.topBarColor = status;
 	    },
+	    
 	},
 	getters: {
 	    getDark(state){
@@ -27,6 +32,7 @@ export default {
 	    getTopBarColor(state){
 	      return state.topBarColor;
 	    },
+	    
 	    	  
 	}
 }

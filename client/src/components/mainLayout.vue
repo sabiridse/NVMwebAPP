@@ -33,7 +33,23 @@
             <dataPickers/>
           </v-card>
           </template>
-          
+            <v-card flat :class="themes">
+            <v-flex>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu3"
+                  :nudge-right="10"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  >
+                  <v-btn slot="activator" flat class="title">Дата проверена</v-btn>
+                  <v-date-picker v-model="date3" :first-day-of-week="1" locale="ru-Ru" @input="check()"></v-date-picker>
+                </v-menu> 
+            </v-flex>  
+          </v-card>
         </v-container>
       </v-list>
     </v-navigation-drawer>
@@ -98,6 +114,7 @@ import categoryStataTable from "./categoryStataTable.vue";
 import statPanel from "./statPanel.vue";
 import graphicsStat from "./graphicsStat.vue";
 
+import api from '../services/Controller'
 
 import eventbus from "../plugins/eventbus.js";
 
@@ -106,11 +123,14 @@ export default {
     return {
       date1: new Date().toISOString().substr(0, 10),
       date2: new Date().toISOString().substr(0, 10),
+      //date3: new Date().toISOString().substr(0, 10),
       menu2: false,
+      menu3: false,
       expand1: false,
       expand2: false,
       expand3: false,
       expand4: false,
+      expand5: false,
       drawer: null,
       dialog: false,
       search: ""
@@ -135,7 +155,14 @@ export default {
     statisticGraphicModalForm
 
   },
+  created(){
+      api.categoryList();
+  },
   computed: {
+      date3: {
+        get(){return this.$store.getters.getDateChecking},
+        set(value){this.$store.dispatch('setDateChecking',value)}
+      },
       curientComponent: {
         get(){return this.$store.getters.getCurientComponent}
       },
@@ -169,6 +196,10 @@ export default {
   methods: {
     searching(search) {
       eventbus.$emit("searchReq", this.search);
+    },
+    check(){
+     // this.$store.dispatch('setDateChecking',this.date3);
+      this.menu3 = false;
     }
   }
 };

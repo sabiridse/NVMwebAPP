@@ -25,7 +25,10 @@ import api from '@/services/Controller'
   export default {
     data() {
       return {
-        newCategory: {category:''}
+        newCategory: {
+                      category:'',
+                      status:0 //category
+                      }
       }
     },
     computed: {

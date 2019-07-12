@@ -11,7 +11,7 @@
       no-results-text="нет данных"
   >
       <template slot="items" slot-scope="props">
-        <tr v-bind:class="[weekend(props.item.date) ? 'blue darken-4' : '']" 
+        <tr v-bind:class="[dateChecking(props.item) ? 'green' : weekend(props.item.date) ? 'blue darken-4' : '']" 
             @click="props.expanded = !props.expanded; curientDate(props.item.date)">
 	        <td class="text-xm-center">{{ changeDateFormat(props.item) }}</td>
 	        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
@@ -81,6 +81,11 @@ export default {
 
   },
   methods: {
+
+    dateChecking(item){
+      return this.$store.getters.getDateChecking == this.changeDateFormat(item);
+    },
+
     curientDate(cDate){
         this.$store.dispatch("setCurientDate", cDate);
     },
@@ -114,6 +119,10 @@ export default {
        
   },
   	computed: {
+
+    // dateChecking(){
+    //   return this.$store.getters.getDateChecking;
+    // },
 
     alertLimit(){
 

@@ -1,3 +1,5 @@
+import api from '@/services/Controller'
+
 export default {
   state: {
     alertLimit: 2000,
@@ -6,6 +8,7 @@ export default {
     categoryesList:[],
     oneDayItems:[],
     curientDate:'',
+    dateChecking:'',
     defaultPropsNewItemModalForms:{
       title:"Новая запись в таблицу",
       category: null,
@@ -27,10 +30,20 @@ export default {
     allCategoryesList({commit}, list){
       let arrayCategoryes = [];
       list.forEach(function(oneCategory){
-        arrayCategoryes.push(oneCategory.category);
+        if (oneCategory.status == 0){
+          arrayCategoryes.push(oneCategory.category);
+        } else commit("SET_DATE_CHECKING",oneCategory.category);
       })
       commit("ALL_CATEGORY_LIST", arrayCategoryes);
     },
+
+    async setDateChecking({commit},dateChecking){
+      await api.addNewCategory({
+                    category: dateChecking,
+                    status:1 // dateChecking
+                  });
+            commit("SET_DATE_CHECKING",dateChecking);
+      },
 
     setCurientDate({commit}, cDate){
       commit("CURIENT_DATE", cDate);
@@ -75,7 +88,10 @@ export default {
     },
     STATISTIC_TABLE_DATA(state, list){
       state.statisticTableDataList = list;
-    }
+    },
+    SET_DATE_CHECKING(state, status){
+        state.dateChecking = status;
+      }
   },
   getters: {
     getStatisticTableDataList(state){
@@ -98,6 +114,9 @@ export default {
     },
     getCurientDate(state) {
       return state.curientDate;
-    }
+    },
+    getDateChecking(state){
+        return state.dateChecking;
+      }
   }
 }

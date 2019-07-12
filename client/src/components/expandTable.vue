@@ -14,7 +14,7 @@
           <v-icon  @click="deleteItem(props.item)">delete_sweep</v-icon>
         </td>
       </template>
-    </v-data-table>
+    </v-data-table> 
 </template>
 <script>
 
@@ -46,7 +46,7 @@ export default {
           api.categoryList();
           this.$store.dispatch('setPropsNewItemModalForms',item);
           this.$store.commit('setNewItemModalFormStatus',true);
-    },        
+    },       
   },
   computed: {
     curientDate (){
