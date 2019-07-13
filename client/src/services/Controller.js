@@ -1,6 +1,6 @@
 import Api from './Api'
 import store from '../store/store'
-const async = require('async');
+const async = require('async');//test commit
 export default {
   
 	async addNewNoteByCategory(item) {
