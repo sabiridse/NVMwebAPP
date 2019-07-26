@@ -4,9 +4,9 @@
   "main": "/client/src/main.js",
   "description": "autoStart all services",
   "scripts": {
-    "server": "cd server && npm run dev",
+    "server": "cd server && npm run start",
     "client": "cd client && npm run serve",
-    "start": "concurrent \"npm run server\" \"npm run client\""
+    "start": "npm run server && npm run client"
   },
   "devDependencies": {
     "concurrently": "^1.0.0"
@@ -15,7 +15,7 @@
     "@babel/polyfill": "7.0.0",
     "@mdi/font": "3.0.39",
     "async": "2.6.1",
-    "axios": "0.18.0",
+    "axios": "^0.19.0",
     "material-design-icons-iconfont": "4.0.2",
     "vue": "2.5.17",
     "vue-router": "3.0.1",
