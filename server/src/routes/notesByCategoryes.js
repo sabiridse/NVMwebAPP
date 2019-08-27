@@ -32,7 +32,7 @@ module.exports = function(app) {
 	});
 
 	app.delete('/deleteNote/:id', (req, res) => {
-		notesByCategoryes.remove({
+		notesByCategoryes.deleteOne({
 		   _id: req.params.id
 		  }, function(err, note){
 		    if (err){

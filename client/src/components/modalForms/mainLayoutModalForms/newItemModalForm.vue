@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="290px">
       <v-card>
-        <v-card-title class="text-xl-center">{{title}}</v-card-title>    
+        <v-card-title class="text-xl-center">{{title}}</v-card-title>
           <v-layout column>
             <v-flex>
                 <v-menu
@@ -16,28 +16,28 @@
                   >
                   <v-text-field
                     slot="activator"
-                    v-model="date"                  
+                    v-model="date"
                     readonly
                     solo
                   ></v-text-field>
                   <v-date-picker v-model="date" :first-day-of-week="1" locale="ru-Ru" @input="menu2 = false"></v-date-picker>
-                </v-menu> 
-            </v-flex>    
-            <v-flex>  
+                </v-menu>
+            </v-flex>
+            <v-flex>
                 <v-select
                   v-model="category"
                   :items="categoryesList"
                   placeholder="Категория"
-                  solo                 
+                  solo
                 ></v-select>
-            </v-flex>     
+            </v-flex>
             <v-flex>
                 <v-text-field
                   v-model="cash"
                   placeholder="Сумма"
-                  solo>                    
+                  solo>
                 </v-text-field>
-            </v-flex>           
+            </v-flex>
             <v-container>
               <v-switch v-model="switchProfit" :label="switchProfitStatus()" color="green darken-4">
               </v-switch>
@@ -58,7 +58,7 @@
                       v-model="actionTemplates"
                       :items="actionsTempl"
                       placeholder="Характер действия"
-                      solo>    
+                      solo>
                     </v-select>
                     <transition>
                       <v-layout column>
@@ -67,165 +67,156 @@
                                 v-if="actionTemplates==actionsTempl[0]"
                                 v-model="day"
                                 :items="daysCount"
-                                solo>    
+                                solo>
                               </v-select>
                             </v-flex>
                             <v-flex>
-                              <p 
+                              <p
                                 v-if="actionTemplates==actionsTempl[1]"
                                 class="text-xl-left"
                               >кажд. {{dayOfWeek()}}</p>
                             </v-flex>
                             <v-flex>
-                              <p 
+                              <p
                                 v-if="actionTemplates==actionsTempl[2]"
                                 class="text-xl-left"
-                              >кажд. {{dataOfMounth()}} число</p>       
+                              >кажд. {{dataOfMounth()}} число</p>
                             </v-flex>
                       </v-layout>
                     </transition>
                 </v-flex>
               </transition>
-            </v-container>         
-          </v-layout>      
+            </v-container>
+          </v-layout>
           <v-card-actions>
             <v-btn round color="green darken-4" @click="validationInputData">Сохранить</v-btn>
             <v-btn round color="red darken-4" @click="close">Закрыть</v-btn>
-          </v-card-actions>     
+          </v-card-actions>
       </v-card>
     </v-dialog>
 </template>
 <script>
-  import service from '@/services/servicePaymentNewItemForm'
-  import api from '@/services/Controller'
-  export default {
-    data() {
-      return {
-        id:0,
-        title: "",
-        defaultProps: null,                //************
-        actionTemplates:null,
-        monthes:1,
-          panel:false,
-          switchTemplate:false,
-          switchProfit: false,                         //************
-          cash:null,                                   //************
-          date: new Date().toISOString().substr(0, 10),//************
-          menu2: false,//calendar
-          category: null,                              //************
-          day:null,
-          dateDay:null,
-          weekly:null,
-          weeklysCount:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
-          daysCount:[1,2,3,4,5,6,7,8,9,10,11,12,13,14],
-          actionsTempl:["Интервал дней","День недели","Число месяца"],
-      }
-    },
-    created (){
+import service from '@/services/servicePaymentNewItemForm'
+import api from '@/services/Controller'
+export default {
+  data () {
+    return {
+      id: 0,
+      title: '',
+      defaultProps: null, //* ***********
+      actionTemplates: null,
+      monthes: 1,
+      panel: false,
+      switchTemplate: false,
+      switchProfit: false, //* ***********
+      cash: null, //* ***********
+      date: new Date().toISOString().substr(0, 10), //* ***********
+      menu2: false, // calendar
+      category: null, //* ***********
+      day: null,
+      dateDay: null,
+      weekly: null,
+      weeklysCount: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+      daysCount: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      actionsTempl: ['Интервал дней', 'День недели', 'Число месяца']
+    }
+  },
+  created () {
 
-    },
-    computed: {
-    		dialog: {  			
-      		get(){this.setDefaultProps(); return this.$store.getters.getNewItemModalFormStatus;},
-      		set(value){this.$store.commit('setNewItemModalFormStatus',value)}
+  },
+  computed: {
+    		dialog: {
+      		get () { this.setDefaultProps(); return this.$store.getters.getNewItemModalFormStatus },
+      		set (value) { this.$store.commit('setNewItemModalFormStatus', value) }
     		},
-        categoryesList: {       
-          get(){return this.$store.getters.getCategoryesList;}
-        }
-	  }	,
-    methods:{
+    categoryesList: {
+      get () { return this.$store.getters.getCategoryesList }
+    }
+	  },
+  methods: {
 
-      dayOfWeek(){
-        let dayNumber = new Date(this.date).getDay();
-        this.weekly = this.weeklysCount[dayNumber];
-        return this.weekly;
-      },
-      dataOfMounth(){ 
-        this.dateDay =  new Date(this.date).getDate();
-        return this.dateDay;
-      },
+    dayOfWeek () {
+      let dayNumber = new Date(this.date).getDay()
+      this.weekly = this.weeklysCount[dayNumber]
+      return this.weekly
+    },
+    dataOfMounth () {
+      this.dateDay = new Date(this.date).getDate()
+      return this.dateDay
+    },
 
-
-      switchProfitStatus (){
-        return (this.switchProfit) ? "ДОХОД" : "РАСХОД";
-      },
-      switchTemplateStatus (){
-        return (this.switchTemplate) ? "В ШАБЛОН" : "ОДНОКРАТНО";
-      },
-      switchProfitValue (){
-        if (this.cash !=null && !isNaN(this.cash)){
-          return (this.switchProfit) ? +this.cash : -this.cash ;
-        } else {
-           return null
-          }
-      },
-
-      setDefaultProps(){
-        this.defaultProps = this.$store.getters.getPropsNewItemModalForms;
-        this.title = this.defaultProps.title;
-        this.switchProfit = this.defaultProps.switchProfit;
-        this.cash = Math.abs(this.defaultProps.cash);
-        this.date = this.defaultProps.date;
-        this.category = this.defaultProps.category;
-        this.id = this.defaultProps.id;
-      },
-
-      close(){
-        this.dialog = false;
-        this.$store.dispatch('setDefaultPropsNIMF');
-      },
-
-      validationInputData (){
-
-        if (this.category !=null && this.switchProfitValue() !=null){
-          
-          this.validationForTemplateData();
-
-        } else {
-         alert ("Корректно укажите категорию и сумму!");
-        }
-
-      },
-
-      validationForTemplateData(){
-
-        if (this.switchTemplate && this.day ===null && this.weekly === null && this.dateDay === null) {
-          alert ("Не указан характер действия шаблона!");
-
-        } else (this.id != 0) ? this.replaceItem() : this.save();
-
-      },
-
-      replaceItem(){
-        api.deleteNote(this.id);
-        this.save();
-      },
-
-       save(){
-        try {
-           service.assemblyData({
-                                    date:this.date,
-                                    category:this.category,
-                                    cash:this.switchProfitValue(),
-                                    switchTemplate:this.switchTemplate,
-                                    monthes: this.monthes,
-                                    day: this.day,
-                                    weekly:this.weekly,
-                                    dateDay:this.dateDay
-                                 });
-          this.day = null;
-          this.dateDay = null;
-          this.weekly = null;
-          this.actionTemplates = null;                        
-          this.category = null;
-          this.cash = null;  
-          this.switchProfit = false; 
-          this.switchTemplate = false;
-        }  catch (err) {
-          alert ("Нет связи с базой данных! "+err);
-        }
-                                                   
+    switchProfitStatus () {
+      return (this.switchProfit) ? 'ДОХОД' : 'РАСХОД'
+    },
+    switchTemplateStatus () {
+      return (this.switchTemplate) ? 'В ШАБЛОН' : 'ОДНОКРАТНО'
+    },
+    switchProfitValue () {
+      if (this.cash != null && !isNaN(this.cash)) {
+        return (this.switchProfit) ? +this.cash : -this.cash
+      } else {
+        return null
       }
-    }  
-  };
+    },
+
+    setDefaultProps () {
+      this.defaultProps = this.$store.getters.getPropsNewItemModalForms
+      this.title = this.defaultProps.title
+      this.switchProfit = this.defaultProps.switchProfit
+      this.cash = Math.abs(this.defaultProps.cash)
+      this.date = this.defaultProps.date
+      this.category = this.defaultProps.category
+      this.id = this.defaultProps.id
+    },
+
+    close () {
+      this.dialog = false
+      this.$store.dispatch('setDefaultPropsNIMF')
+    },
+
+    validationInputData () {
+      if (this.category != null && this.switchProfitValue() != null) {
+        this.validationForTemplateData()
+      } else {
+        alert('Корректно укажите категорию и сумму!')
+      }
+    },
+
+    validationForTemplateData () {
+      if (this.switchTemplate && this.day === null && this.weekly === null && this.dateDay === null) {
+        alert('Не указан характер действия шаблона!')
+      } else (this.id != 0) ? this.replaceItem() : this.save()
+    },
+
+    replaceItem () {
+      api.deleteNote(this.id)
+      this.save()
+    },
+
+    save () {
+      try {
+        service.assemblyData({
+          date: this.date,
+          category: this.category,
+          cash: this.switchProfitValue(),
+          switchTemplate: this.switchTemplate,
+          monthes: this.monthes,
+          day: this.day,
+          weekly: this.weekly,
+          dateDay: this.dateDay
+        })
+        this.day = null
+        this.dateDay = null
+        this.weekly = null
+        this.actionTemplates = null
+        this.category = null
+        this.cash = null
+        this.switchProfit = false
+        this.switchTemplate = false
+      } catch (err) {
+        alert('Нет связи с базой данных! ' + err)
+      }
+    }
+  }
+}
 </script>

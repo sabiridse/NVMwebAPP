@@ -9,15 +9,14 @@
 	  	<b-btn class="ml-2" variant="primary">На главную</b-btn>
 	  	<b-btn class="ml-2" variant="primary">Горячие точки</b-btn>
 	  	<b-btn class="ml-2" variant="primary">Настройки</b-btn>
-	  	<b-btn class="ml-2" variant="primary">В новой вкладке</b-btn>   
+	  	<b-btn class="ml-2" variant="primary">В новой вкладке</b-btn>
 	  </b-collapse>
 	</b-navbar>
-</div>	
+</div>
 </template>
 
 <script>
 </script>
 <style>
-	
-</style>
 
+</style>

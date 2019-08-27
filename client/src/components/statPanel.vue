@@ -1,39 +1,40 @@
 <template>
 	<div>
 		<v-toolbar flat>
-	      <v-toolbar-title>Расходы по категориям за последние 12 месяцев</v-toolbar-title>
+	      <v-toolbar-title>Импорт JSON файла с чеками</v-toolbar-title>
 	      <v-spacer></v-spacer>
-	      <v-btn color="info" dark @click="setCurientComponent('graphicsStat')">Показать график</v-btn>
 	    </v-toolbar>
-	      <keep-alive>
+        <v-file-input label="Выберете файл для импорта"></v-file-input>
+
+	      <!-- <keep-alive>
 	        <component v-bind:is="curientComponent"></component>
-	      </keep-alive>	  
+	      </keep-alive>	 -->
 	</div>
 </template>
 <script>
-import categoryStataTable from "./categoryStataTable.vue";
-import graphicsStat from "./graphicsStat.vue";
+// import categoryStataTable from "./categoryStataTable.vue";
+// import graphicsStat from "./graphicsStat.vue";
 
 export default {
 
-  	data() {
+  	data () {
     	return {
-      
+
     	}
   	},
   	components: {
-  		categoryStataTable,
-  		graphicsStat
+  		// categoryStataTable,
+  		// graphicsStat
   	},
-	computed: {
+  computed: {
       	curientComponent: {
-        	get(){return this.$store.getters.getStatPanelCurientComponent}
-      	},
+        	get () { return this.$store.getters.getStatPanelCurientComponent }
+      	}
   	},
-  	methods:{
-  		setCurientComponent(value) {
-        	this.$store.commit('setStatPanelCurientComponent',value);
+  	methods: {
+  		setCurientComponent (value) {
+        	this.$store.commit('setStatPanelCurientComponent', value)
       	}
   	}
-};
+}
 </script>

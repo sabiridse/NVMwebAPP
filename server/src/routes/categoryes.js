@@ -27,6 +27,7 @@ module.exports = function(app) {
 			})     		  			
 	});
 
+
 	app.get('/selectAllCategoryes',(req,res) =>{
 		categoryes.find({},{_id:0}).sort({category: 1}).exec(function(err, allCategoryes) {
 	    if (err) throw err;
@@ -34,17 +35,17 @@ module.exports = function(app) {
 		});
 	});
 
-	app.delete('/delete_category/:category', (req, res) => {
-		categoryes.remove({
-		   category: req.params.category
-		  }, function(err, note){
-		    if (err){
-		      res.send(err);
-		    } else {
-		      res.send({
-		      success: true
-		    })
-		    }		    
-		})
-	});
+	// app.delete('/delete_category/:category', (req, res) => {
+	// 	categoryes.remove({
+	// 	   category: req.params.category
+	// 	  }, function(err, note){
+	// 	    if (err){
+	// 	      res.send(err);
+	// 	    } else {
+	// 	      res.send({
+	// 	      success: true
+	// 	    })
+	// 	    }		    
+	// 	})
+	// });
 }

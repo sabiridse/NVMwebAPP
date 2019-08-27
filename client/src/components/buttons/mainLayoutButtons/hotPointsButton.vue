@@ -6,14 +6,14 @@
           <v-list-tile-content>
             <v-list-tile-title class="title">Hot points</v-list-tile-title>
           </v-list-tile-content>
-        </v-list-tile> -->  
+        </v-list-tile> -->
 </template>
 <script>
-  export default {
-   //  methods: {
+export default {
+  //  methods: {
 	  //   dialogStatus(status){
 	  //       this.$store.commit('setChangeThemeModalFormStatus',status);
 	  //   }
-  	// }  
-  };
+  	// }
+}
 </script>

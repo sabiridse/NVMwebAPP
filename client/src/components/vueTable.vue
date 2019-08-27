@@ -8,7 +8,7 @@
       no-data-text="нет данных"
       no-results-text="нет данных"
       :pagination.sync="pagination"
-      
+
     >
       <template slot="items" slot-scope="props">
         <tr v-bind:class="[weekend(props.item.date) ? 'blue darken-4' : '']">
@@ -26,50 +26,48 @@
     </v-data-table>
 </template>
 <script>
-import eventbus from "../plugins/eventbus.js";
+import eventbus from '../plugins/eventbus.js'
 import api from '../services/Controller'
 
 export default {
-  data() {
+  data () {
     return {
-      search: "",
+      search: '',
       pagination: {},
-      text: "Строк на странице:",
-      rowsPerPageItemsArray: [90, 45, 15, { text: "Все", value: -1 }],
+      text: 'Строк на странице:',
+      rowsPerPageItemsArray: [90, 45, 15, { text: 'Все', value: -1 }],
       headers: [
         {
-          text: "Дата",
-          value: "date",
+          text: 'Дата',
+          value: 'date',
           sortable: true
         },
         {
-          text: "Категория",
-          value: "category",
+          text: 'Категория',
+          value: 'category',
           sortable: true
         },
         {
-          text: "Сумма",
-          value: "cash",
+          text: 'Сумма',
+          value: 'cash',
           sortable: true
         },
         {
-          text: "День недели",
-          value: "dayOfWeek",
+          text: 'День недели',
+          value: 'dayOfWeek',
           sortable: false
         },
         {
-          text: "Действие",
-          value:""
+          text: 'Действие',
+          value: ''
         }
-      ],
-    };
+      ]
+    }
   },
-  created() {
-    eventbus.$on("searchReq", this.searchData);
-    
-    api.selectAll();
+  created () {
+    eventbus.$on('searchReq', this.searchData)
 
-
+    api.selectAll()
   },
   // watch: {
   //   "pagination": (newPage) => {
@@ -79,46 +77,44 @@ export default {
 
   methods: {
 
-    dialogNewItem(item){
-          api.categoryList();
-          this.$store.dispatch('setPropsNewItemModalForms',item);
-          this.$store.commit('setNewItemModalFormStatus',true);
-    }, 
-
-    deleteItem(item){
-      api.deleteNote(item._id);
-    },  
-    changeDateFormat(date){
-      return new Date(date).toISOString().substring(0,10);
+    dialogNewItem (item) {
+      api.categoryList()
+      this.$store.dispatch('setPropsNewItemModalForms', item)
+      this.$store.commit('setNewItemModalFormStatus', true)
     },
-    changeWeeklyDayFormat(date){
 
-      let dayInt = new Date(date).getDay();
+    deleteItem (item) {
+      api.deleteNote(item._id)
+    },
+    changeDateFormat (date) {
+      return new Date(date).toISOString().substring(0, 10)
+    },
+    changeWeeklyDayFormat (date) {
+      let dayInt = new Date(date).getDay()
 
-      switch(dayInt){
-        case 1: return "Понедельник"; break;
-        case 2: return "Вторник"; break;
-        case 3: return "Среда"; break;
-        case 4: return "Четверг"; break;
-        case 5: return "Пятница"; break;
-        case 6: return "Суббота"; break;
-        case 0: return "Воскресенье"; break;
+      switch (dayInt) {
+        case 1: return 'Понедельник'; break
+        case 2: return 'Вторник'; break
+        case 3: return 'Среда'; break
+        case 4: return 'Четверг'; break
+        case 5: return 'Пятница'; break
+        case 6: return 'Суббота'; break
+        case 0: return 'Воскресенье'; break
       }
     },
-    searchData(value) {
-      this.search = value;
+    searchData (value) {
+      this.search = value
     },
-     weekend(value){
-
-      return new Date(value).getDay() == 6 || new Date(value).getDay() == 0 ? true:false;
-    },  
+    weekend (value) {
+      return !!(new Date(value).getDay() == 6 || new Date(value).getDay() == 0)
+    }
   },
   computed: {
-    items() {     
-      return this.$store.getters.items;
-    }   
+    items () {
+      return this.$store.getters.items
+    }
   }
-};
+}
 </script>
 <style>
 

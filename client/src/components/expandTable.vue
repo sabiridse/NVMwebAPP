@@ -2,7 +2,7 @@
     <v-data-table
       :items="oneDayItems"
       hide-actions
-      hide-headers 
+      hide-headers
       :dark="dark()"
       :light="light()"
     >
@@ -14,51 +14,51 @@
           <v-icon  @click="deleteItem(props.item)">delete_sweep</v-icon>
         </td>
       </template>
-    </v-data-table> 
+    </v-data-table>
 </template>
 <script>
 
 import api from '../services/Controller'
 
 export default {
-  data() {
+  data () {
     return {
 
     }
   },
-  created() {
-    
+  created () {
+
   },
   methods: {
-    dark() {
+    dark () {
       let status;
-      (this.$store.getters.getDark) ? status=false : status=true;
-      return status;
+      (this.$store.getters.getDark) ? status = false : status = true
+      return status
     },
-    light() {
-      return this.$store.getters.getDark;
+    light () {
+      return this.$store.getters.getDark
     },
-    deleteItem(item){
-      api.deleteNote(item._id);
+    deleteItem (item) {
+      api.deleteNote(item._id)
     },
-    dialogNewItem(item){
-          //this.$store.dispatch('setDefaultPropsNIMF');
-          api.categoryList();
-          this.$store.dispatch('setPropsNewItemModalForms',item);
-          this.$store.commit('setNewItemModalFormStatus',true);
-    },       
+    dialogNewItem (item) {
+      // this.$store.dispatch('setDefaultPropsNIMF');
+      api.categoryList()
+      this.$store.dispatch('setPropsNewItemModalForms', item)
+      this.$store.commit('setNewItemModalFormStatus', true)
+    }
   },
   computed: {
-    curientDate (){
-      return this.$store.getters.getCurientDate;
+    curientDate () {
+      return this.$store.getters.getCurientDate
     },
-    oneDayItems() {
+    oneDayItems () {
       return this.$store.getters.items
-                .slice()
-                .filter(elem => new Date(elem.date).getTime() == this.curientDate.getTime());
-    }   
+        .slice()
+        .filter(elem => new Date(elem.date).getTime() == this.curientDate.getTime())
+    }
   }
-};
+}
 </script>
 <style scoped>
 

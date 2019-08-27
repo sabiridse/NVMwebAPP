@@ -14,12 +14,12 @@
   </v-layout>
 </template>
 <script>
-  export default {
-      computed: {
-  		dialog: {  			
-    		get(){return this.$store.getters.getSettingsModalFormStatus;},
-    		set(value){this.$store.commit('setSettingsModalFormStatus',value)}
+export default {
+  computed: {
+  		dialog: {
+    		get () { return this.$store.getters.getSettingsModalFormStatus },
+    		set (value) { this.$store.commit('setSettingsModalFormStatus', value) }
   		}
-	  }	  
-  };
+	  }
+}
 </script>

@@ -23,21 +23,21 @@
             </v-list-tile-content>
       </v-list-tile>
 
-    </v-list>    
+    </v-list>
   </v-menu>
 </template>
 <script>
 import api from '@/services/Controller'
-  export default {
-    computed: {
-      topBarColor: {
-        get(){return this.$store.getters.getTopBarColor}
-      }     
-    },
-    methods: {
-	    curientComponent(value) {
-        this.$store.commit('setCurientComponent',value);
-      }
-  	}  
-  };
+export default {
+  computed: {
+    topBarColor: {
+      get () { return this.$store.getters.getTopBarColor }
+    }
+  },
+  methods: {
+	    curientComponent (value) {
+      this.$store.commit('setCurientComponent', value)
+    }
+  	}
+}
 </script>

@@ -1,52 +1,66 @@
 export default {
-	state: {
+  state: {
 	    settingsModalFormStatus: false,
 	    newItemModalFormStatus: false,
 	    changeThemeModalFormStatus: false,
 	    NewItemModalFormStatus: false,
 	    statisticModalFormStatus: false,
 	    statisticGraphicModalFormStatus: false,
+	    authModalFormStatus: true,
+	    appCurientComponent: 'authModalForm'
 	  },
 	  actions: {
 	  },
 	  mutations: {
-	    setSettingsModalFormStatus(state, status){
-	      state.settingsModalFormStatus = status;
+	    setSettingsModalFormStatus (state, status) {
+	      state.settingsModalFormStatus = status
 	    },
-	    setNewItemModalFormStatus(state, status){
-	      state.newItemModalFormStatus = status;
+	    setNewItemModalFormStatus (state, status) {
+	      state.newItemModalFormStatus = status
 	    },
-	    setChangeThemeModalFormStatus(state, status){
-	      state.changeThemeModalFormStatus = status;
+	    setChangeThemeModalFormStatus (state, status) {
+	      state.changeThemeModalFormStatus = status
 	    },
-	    setNewCategoryModalFormStatus(state, status){
-	      state.NewItemModalFormStatus = status;
+	    setNewCategoryModalFormStatus (state, status) {
+	      state.NewItemModalFormStatus = status
 	    },
-	    setStatisticModalFormStatus(state, status){
-	      state.statisticModalFormStatus = status;
+	    setStatisticModalFormStatus (state, status) {
+	      state.statisticModalFormStatus = status
 	    },
-	    setStatisticGraphicModalFormStatus(state, status){
-	      state.statisticGraphicModalFormStatus = status;
+	    setStatisticGraphicModalFormStatus (state, status) {
+	      state.statisticGraphicModalFormStatus = status
+	    },
+	    setAuthModalFormStatus (state, status) {
+	      state.authModalFormStatus = status
+	    },
+	    SET_APP_CURIENT_COMPONENT (state, component) {
+	      state.appCurientComponent = component
 	    }
 	  },
 	  getters: {
-	    getSettingsModalFormStatus(state){
-	      return state.settingsModalFormStatus;
+	  	getAppCurientComponent (state) {
+	      return state.appCurientComponent
 	    },
-	    getNewItemModalFormStatus(state){
-	      return state.newItemModalFormStatus;
+	    getSettingsModalFormStatus (state) {
+	      return state.settingsModalFormStatus
 	    },
-	    getChangeThemeModalFormStatus(state){
-	      return state.changeThemeModalFormStatus;
+	    getAuthModalFormStatus (state) {
+	      return state.authModalFormStatus
 	    },
-	    getNewCategoryModalFormStatus(state){
-	      return state.NewItemModalFormStatus;
+	    getNewItemModalFormStatus (state) {
+	      return state.newItemModalFormStatus
 	    },
-	    getStatisticModalFormStatus(state){
-	      return state.statisticModalFormStatus;
+	    getChangeThemeModalFormStatus (state) {
+	      return state.changeThemeModalFormStatus
 	    },
-	    getStatisticGraphicModalFormStatus(state){
-	      return state.statisticGraphicModalFormStatus;
+	    getNewCategoryModalFormStatus (state) {
+	      return state.NewItemModalFormStatus
+	    },
+	    getStatisticModalFormStatus (state) {
+	      return state.statisticModalFormStatus
+	    },
+	    getStatisticGraphicModalFormStatus (state) {
+	      return state.statisticGraphicModalFormStatus
 	    }
 	  }
 }

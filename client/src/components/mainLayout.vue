@@ -12,7 +12,7 @@
           <v-btn flat class="title" @click="expand2 = !expand2">Нижний лимит</v-btn>
             <template v-if="expand2">
               <v-card flat :class="themes">
-                <v-slider 
+                <v-slider
                 v-model="alertLimit"
                 :label="`${alertLimit} руб.`"
                 :max="10000"
@@ -20,7 +20,7 @@
                 step="1000">
               </v-slider>
              </v-card>
-          </template>          
+          </template>
           <v-btn flat class="title"  @click="expand3 = !expand3">Горячие точки</v-btn>
           <template v-if="expand3">
             <v-card flat>
@@ -47,8 +47,8 @@
                   >
                   <v-btn slot="activator" flat class="title">Дата проверена</v-btn>
                   <v-date-picker v-model="date3" :first-day-of-week="1" locale="ru-Ru" @input="check()"></v-date-picker>
-                </v-menu> 
-            </v-flex>  
+                </v-menu>
+            </v-flex>
           </v-card>
         </v-container>
       </v-list>
@@ -64,7 +64,7 @@
         <newItemButton/>
         <tablesButton/>
         <settingsButton/>
-        <changeThemeButton/>           
+        <changeThemeButton/>
      <v-spacer></v-spacer>
       <v-flex xs2 mt-2>
         <v-text-field
@@ -88,42 +88,44 @@
     <newCategoryModalForm/>
     <statisticModalForm/>
     <statisticGraphicModalForm/>
+    <!-- <authModalForm/> -->
   </v-app>
 </template>
 
 <script>
-import newItemButton from "./buttons/mainLayoutButtons/newItemButton.vue";
-import newItemModalForm from "./modalForms/mainLayoutModalForms/newItemModalForm.vue";
-import statisticModalForm from "./modalForms/statisticModalForm.vue";
-import statisticGraphicModalForm from "./modalForms/statisticGraphicModalForm.vue";
+import newItemButton from './buttons/mainLayoutButtons/newItemButton.vue'
+import newItemModalForm from './modalForms/mainLayoutModalForms/newItemModalForm.vue'
+// import authModalForm from "./modalForms/mainLayoutModalForms/authModalForm.vue";
+import statisticModalForm from './modalForms/statisticModalForm.vue'
+import statisticGraphicModalForm from './modalForms/statisticGraphicModalForm.vue'
 
-import settingsButton from "./buttons/mainLayoutButtons/settingsButton.vue";
-import settingsModalForm from "./modalForms/mainLayoutModalForms/settingsModalForm.vue";
+import settingsButton from './buttons/mainLayoutButtons/settingsButton.vue'
+import settingsModalForm from './modalForms/mainLayoutModalForms/settingsModalForm.vue'
 
-import changeThemeButton from "./buttons/mainLayoutButtons/changeThemeButton.vue";
+import changeThemeButton from './buttons/mainLayoutButtons/changeThemeButton.vue'
 
-import tablesButton from "./buttons/mainLayoutButtons/tablesButton.vue";
+import tablesButton from './buttons/mainLayoutButtons/tablesButton.vue'
 
-import newCategoryModalForm from "./modalForms/mainLayoutModalForms/newCategoryModalForm.vue";
+import newCategoryModalForm from './modalForms/mainLayoutModalForms/newCategoryModalForm.vue'
 
-import vueTable from "./vueTable.vue";
-import dataPickers from "./dataPickers.vue";
-import hotPointsTable from "./horPointsTable.vue";
-import statisticTable from "./statisticTable.vue";
-import categoryStataTable from "./categoryStataTable.vue";
-import statPanel from "./statPanel.vue";
-import graphicsStat from "./graphicsStat.vue";
+import vueTable from './vueTable.vue'
+import dataPickers from './dataPickers.vue'
+import hotPointsTable from './horPointsTable.vue'
+import statisticTable from './statisticTable.vue'
+import categoryStataTable from './categoryStataTable.vue'
+import statPanel from './statPanel.vue'
+import graphicsStat from './graphicsStat.vue'
 
 import api from '../services/Controller'
 
-import eventbus from "../plugins/eventbus.js";
+import eventbus from '../plugins/eventbus.js'
 
 export default {
-  data() {
+  data () {
     return {
       date1: new Date().toISOString().substr(0, 10),
       date2: new Date().toISOString().substr(0, 10),
-      //date3: new Date().toISOString().substr(0, 10),
+      // date3: new Date().toISOString().substr(0, 10),
       menu2: false,
       menu3: false,
       expand1: false,
@@ -133,8 +135,8 @@ export default {
       expand5: false,
       drawer: null,
       dialog: false,
-      search: ""
-    };
+      search: ''
+    }
   },
   components: {
     statPanel,
@@ -148,6 +150,7 @@ export default {
     settingsButton,
     newItemButton,
     newItemModalForm,
+    // authModalForm,
     changeThemeButton,
     tablesButton,
     newCategoryModalForm,
@@ -155,52 +158,52 @@ export default {
     statisticGraphicModalForm
 
   },
-  created(){
-      api.categoryList();
+  created () {
+    api.categoryList()
   },
   computed: {
-      date3: {
-        get(){return this.$store.getters.getDateChecking},
-        set(value){this.$store.dispatch('setDateChecking',value)}
-      },
-      curientComponent: {
-        get(){return this.$store.getters.getCurientComponent}
-      },
-      dark: {
-        get(){return this.$store.getters.getDark},
-        set(value){this.$store.commit('setDark',value)}
-      },
-      themes: {
-        get(){return this.$store.getters.getThemes},
-        set(value){this.$store.commit('setThemes',value)}
-      },
-      topBarColor: {
-        get(){return this.$store.getters.getTopBarColor},
-        set(value){this.$store.commit('setTopBarColor',value)}
-      },
-      alertLimit:{
-        get(){return this.$store.getters.getAlertLimit},
-        set(value){this.$store.commit('ALERT_LIMIT',value)}
-      },
-      stashCash:{ 
-        get(){
-          let cashArr=[];
-          this.$store.getters.items
-              .filter(elem => elem.category == "Заначка" &&
+    date3: {
+      get () { return this.$store.getters.getDateChecking },
+      set (value) { this.$store.dispatch('setDateChecking', value) }
+    },
+    curientComponent: {
+      get () { return this.$store.getters.getCurientComponent }
+    },
+    dark: {
+      get () { return this.$store.getters.getDark },
+      set (value) { this.$store.commit('setDark', value) }
+    },
+    themes: {
+      get () { return this.$store.getters.getThemes },
+      set (value) { this.$store.commit('setThemes', value) }
+    },
+    topBarColor: {
+      get () { return this.$store.getters.getTopBarColor },
+      set (value) { this.$store.commit('setTopBarColor', value) }
+    },
+    alertLimit: {
+      get () { return this.$store.getters.getAlertLimit },
+      set (value) { this.$store.commit('ALERT_LIMIT', value) }
+    },
+    stashCash: {
+      get () {
+        let cashArr = []
+        this.$store.getters.items
+          .filter(elem => elem.category === 'Заначка' &&
                               new Date(elem.date) < new Date())
-              .forEach(elem => cashArr.push(elem.cash*-1));         
-          return cashArr.reduce((sum,elem)=> sum+elem);
-        }
-      } 
+          .forEach(elem => cashArr.push(elem.cash * -1))
+        return cashArr.reduce((sum, elem) => sum + elem)
+      }
+    }
   },
   methods: {
-    searching(search) {
-      eventbus.$emit("searchReq", this.search);
+    searching (search) {
+      eventbus.$emit('searchReq', this.search)
     },
-    check(){
-     // this.$store.dispatch('setDateChecking',this.date3);
-      this.menu3 = false;
+    check () {
+      // this.$store.dispatch('setDateChecking',this.date3);
+      this.menu3 = false
     }
   }
-};
+}
 </script>

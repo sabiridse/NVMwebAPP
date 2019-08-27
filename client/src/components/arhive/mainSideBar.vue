@@ -1,8 +1,8 @@
 <template>
- <div class="sidebar">	
+ <div class="sidebar">
 			<label class="mt-5 text-center">Добавить новую категорию</label>
 			<input class="form-control mt-1 w-100" id="newCategory">
-			<button class="btn btn-primary mt-1 w-100" type="button" id="addNewCategory">Добавить</button>	
+			<button class="btn btn-primary mt-1 w-100" type="button" id="addNewCategory">Добавить</button>
 			<label class="mt-5 text-center">Выберите дату</label>
 			<input class="form-control" type="date" id="newDate">
 			<label class="mt-2 text-center">Выберите категорию</label>
@@ -16,8 +16,8 @@
 </div>
 </template>
 <script>
-	
+
 </script>
 <style>
-	
+
 </style>

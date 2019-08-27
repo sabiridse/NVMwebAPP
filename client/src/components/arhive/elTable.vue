@@ -19,71 +19,71 @@
 </el-container>
 </template>
 <script>
-	export default {
+export default {
   name: 'page',
   methods: {
-      handleSizeChange(val) {
-        console.log(`${val} строк на странице`);
-      },
-      handleCurrentChange(val) {
-        console.log(`текущая страница: ${val}`);
-      }
+    handleSizeChange (val) {
+      console.log(`${val} строк на странице`)
     },
-  created(){
-  	this.totalIt = this.tableData.length;
-  }, 
-  data() {
+    handleCurrentChange (val) {
+      console.log(`текущая страница: ${val}`)
+    }
+  },
+  created () {
+  	this.totalIt = this.tableData.length
+  },
+  data () {
     return {
       	tableData: [
-					{date:'11.10.2018', prihod:'10000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'11.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'},
-					{date:'01.10.2018', prihod:'1000', rashod:'100', ostatok:'900', dayOfWeek:'Понедельник'},
-					{prihod:'0', rashod:'200', date:'02.10.2018',ostatok:'700', dayOfWeek:'Вторник'}
-					],
-		totalIt:0			
+        { date: '11.10.2018', prihod: '10000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '11.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' },
+        { date: '01.10.2018', prihod: '1000', rashod: '100', ostatok: '900', dayOfWeek: 'Понедельник' },
+        { prihod: '0', rashod: '200', date: '02.10.2018', ostatok: '700', dayOfWeek: 'Вторник' }
+      ],
+      totalIt: 0
     }
   }
-};
+}
 </script>
 <style>
 	.el-table-column {

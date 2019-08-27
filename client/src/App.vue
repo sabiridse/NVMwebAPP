@@ -1,36 +1,29 @@
 <template>
-  <div id="app"><mainLayout /></div>
+   <v-app>
+    
+      <keep-alive>
+        <component v-bind:is="curientComponent"></component>
+      </keep-alive>
+    
+  </v-app>
 </template>
-
 <script>
-//import navbar from './components/navbar.vue';
-//import mainPage from './components/mainPage.vue';
-import mainLayout from "./components/mainLayout.vue";
-//import vueTable from './components/vueTable.vue';
-//import axios from "axios";
-//import async from "async";
-
+import mainLayout from './components/mainLayout.vue'
+import authModalForm from './components/modalForms/mainLayoutModalForms/authModalForm.vue'
 export default {
-  name: "home",
-  //notesList: [],
-  components: {
-    // navbar,
-    // mainPage
-    //vueTable
-    mainLayout
+  data () {
+    return {
+      
+    }
   },
-  //async mounted() {
-    //await axios.get("./notesList.json").then(response => {
-      //this.notesList = response.data;
-      //console.log("начало данных: " + this.notesList);
-      //this.$store.dispatch("defultList", this.notesList);
-    //});
- // }
-};
+  components: {
+    mainLayout,
+    authModalForm
+  },
+  computed:{
+    curientComponent (){
+      return this.$store.getters.getAppCurientComponent
+    }
+  }
+}
 </script>
-
-<style>
-/*body {
-    background: url('./assets/binCode.jpg') bottom fixed;
-  }*/
-</style>

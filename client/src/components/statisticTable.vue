@@ -11,7 +11,7 @@
       no-results-text="нет данных"
   >
       <template slot="items" slot-scope="props">
-        <tr v-bind:class="[dateChecking(props.item) ? 'green' : weekend(props.item.date) ? 'blue darken-4' : '']" 
+        <tr v-bind:class="[dateChecking(props.item) ? 'green' : weekend(props.item.date) ? 'blue darken-4' : '']"
             @click="props.expanded = !props.expanded; curientDate(props.item.date)">
 	        <td class="text-xm-center">{{ changeDateFormat(props.item) }}</td>
 	        <td class="text-xm-center">{{ changeWeeklyDayFormat(props.item.date) }}</td>
@@ -19,8 +19,8 @@
 	        <td class="text-xm-center">{{ props.item.rashod }}</td>
 	        <td v-bind:class="[props.item.ostatok < alertLimit ? 'text-xm-center red--text':'text-xm-center']">
             {{ props.item.ostatok }}
-          </td>	
-        </tr>        
+          </td>
+        </tr>
       </template>
       <template slot="expand" slot-scope="props">
         <v-card flat>
@@ -30,93 +30,88 @@
   </v-data-table>
 </template>
 <script>
-import eventbus from "../plugins/eventbus.js";
+import eventbus from '../plugins/eventbus.js'
 import api from '../services/Controller'
-import expandTable from "./expandTable.vue";
+import expandTable from './expandTable.vue'
 
 export default {
-  data() {
+  data () {
     return {
-      alert: "",
+      alert: '',
       expand: false,
-      search: "",
-      text: "Строк на странице:",
-      rowsPerPageItemsArray: [15, 45, 90, { text: "Все", value: -1 }],
+      search: '',
+      text: 'Строк на странице:',
+      rowsPerPageItemsArray: [15, 45, 90, { text: 'Все', value: -1 }],
       headers: [
         {
-          text: "Дата",
-          value: "date",
+          text: 'Дата',
+          value: 'date',
           sortable: true
         },
         {
-          text: "День недели",
-          value: "dayOfWeek",
+          text: 'День недели',
+          value: 'dayOfWeek',
           sortable: false
         },
         {
-          text: "Приход",
-          value: "prihod",
+          text: 'Приход',
+          value: 'prihod',
           sortable: true
         },
         {
-          text: "Расход",
-          value: "rashod",
+          text: 'Расход',
+          value: 'rashod',
           sortable: true
         },
         {
-          text: "Остаток",
-          value: "ostatok",
+          text: 'Остаток',
+          value: 'ostatok',
           sortable: true
         }
-        
-      ],
-    };
+
+      ]
+    }
   },
   components: {
     expandTable
   },
-  created() {
-    eventbus.$on("searchReq", this.searchData);
-    api.selectAll();
-
+  created () {
+    eventbus.$on('searchReq', this.searchData)
+    api.selectAll()
   },
   methods: {
 
-    dateChecking(item){
-      return this.$store.getters.getDateChecking == this.changeDateFormat(item);
+    dateChecking (item) {
+      return this.$store.getters.getDateChecking == this.changeDateFormat(item)
     },
 
-    curientDate(cDate){
-        this.$store.dispatch("setCurientDate", cDate);
+    curientDate (cDate) {
+      this.$store.dispatch('setCurientDate', cDate)
     },
 
-    changeDateFormat(item){
-      return new Date(item.date).toISOString().substring(0,10);
+    changeDateFormat (item) {
+      return new Date(item.date).toISOString().substring(0, 10)
     },
-    changeWeeklyDayFormat(date){
+    changeWeeklyDayFormat (date) {
+      let dayInt = new Date(date).getDay()
 
-      let dayInt = new Date(date).getDay();
-
-      switch(dayInt){
-        case 1: return "Понедельник"; break;
-        case 2: return "Вторник"; break;
-        case 3: return "Среда"; break;
-        case 4: return "Четверг"; break;
-        case 5: return "Пятница"; break;
-        case 6: return "Суббота"; break;
-        case 0: return "Воскресенье"; break;
+      switch (dayInt) {
+        case 1: return 'Понедельник'; break
+        case 2: return 'Вторник'; break
+        case 3: return 'Среда'; break
+        case 4: return 'Четверг'; break
+        case 5: return 'Пятница'; break
+        case 6: return 'Суббота'; break
+        case 0: return 'Воскресенье'; break
       }
     },
-    weekend(value){
+    weekend (value) {
+      return !!(new Date(value).getDay() == 6 || new Date(value).getDay() == 0)
+    },
+    searchData (value) {
+      this.search = value
+    }
 
-      return new Date(value).getDay() == 6 || new Date(value).getDay() == 0 ? true:false;
-    },
-    searchData(value) {
-      this.search = value;
-    },
-    
- 
-       
   },
   	computed: {
 
@@ -124,55 +119,49 @@ export default {
     //   return this.$store.getters.getDateChecking;
     // },
 
-    alertLimit(){
-
-      return this.$store.getters.getAlertLimit;
-
+    alertLimit () {
+      return this.$store.getters.getAlertLimit
     },
 
-		items(){
-
-	      //********группировка записей по дате******************
-        let allList = this.$store.getters.items.slice();
-	      var map = allList.reduce((acc, cur)=>{
-	        acc[cur.date] = acc[cur.date] || { 
+    items () {
+	      //* *******группировка записей по дате******************
+      let allList = this.$store.getters.items.slice()
+	      var map = allList.reduce((acc, cur) => {
+	        acc[cur.date] = acc[cur.date] || {
 	          date: new Date(cur.date),
-	          dohod:0,
-	          rashod:0,
+	          dohod: 0,
+	          rashod: 0,
 	          cash: 0,
-	          ostatok:0,
-            id:0
+	          ostatok: 0,
+          id: 0
 	        };
-	        (cur.cash > 0) ? (acc[cur.date].dohod = acc[cur.date].dohod + cur.cash) :
-	                         (acc[cur.date].rashod = acc[cur.date].rashod + cur.cash);
+	        (cur.cash > 0) ? (acc[cur.date].dohod = acc[cur.date].dohod + cur.cash)
+	                         : (acc[cur.date].rashod = acc[cur.date].rashod + cur.cash)
 
-	        acc[cur.date].cash = acc[cur.date].cash + cur.cash;
-	        
-	        return acc;
-	      },{});
-	      var addResult = Object.values(map);
+	        acc[cur.date].cash = acc[cur.date].cash + cur.cash
 
-	      //*******************сортировка по возрастанию даты************      
+	        return acc
+	      }, {})
+	      var addResult = Object.values(map)
+
+	      //* ******************сортировка по возрастанию даты************
 	     	addResult.sort(function (next, prev) {
-	        return next.date - prev.date;
-	      });
-
-	      var prevOstatok = 0;
-	      addResult.forEach(elem => {
-
-
-	        elem.ostatok = elem.cash + prevOstatok;
-
-	        prevOstatok = elem.ostatok;
+	        return next.date - prev.date
 	      })
-        this.$store.commit('STATISTIC_TABLE_DATA',addResult);
 
-	      return addResult;
+	      var prevOstatok = 0
+	      addResult.forEach(elem => {
+	        elem.ostatok = elem.cash + prevOstatok
 
-	    }    
+	        prevOstatok = elem.ostatok
+	      })
+      this.$store.commit('STATISTIC_TABLE_DATA', addResult)
 
-	}  
-};
+	      return addResult
+	    }
+
+  }
+}
 </script>
 <style scoped>
 

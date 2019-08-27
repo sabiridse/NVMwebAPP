@@ -9,21 +9,21 @@
 			</b-col>
 			<b-col/>
 		</b-row>
-	</b-container>			
+	</b-container>
 </template>
 <script>
-import mainSideBar from './mainSideBar.vue';
-//import elTable from './elTable.vue';
-//import mainTable from './mainTable.vue';
-import vueTableTest from './vueTableTest.vue';
-	export default {
+import mainSideBar from './mainSideBar.vue'
+// import elTable from './elTable.vue';
+// import mainTable from './mainTable.vue';
+import vueTableTest from './vueTableTest.vue'
+export default {
   		name: 'mainPage',
-  		components:{
+  		components: {
   			mainSideBar,
   			vueTableTest
   		}
-	};
+}
 </script>
 <style>
-	
+
 </style>
