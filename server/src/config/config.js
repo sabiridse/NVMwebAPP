@@ -9,6 +9,6 @@ module.exports={
 
 	//******for developing BY DEV_DB********************
 	dbURL: 'mongodb://developer:developer@84.201.158.214:27017/developer',
-
+	
 	dbOptions: { useNewUrlParser: true }//ljfjlsfkl
 }
