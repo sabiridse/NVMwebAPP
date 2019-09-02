@@ -5,6 +5,9 @@ const cors      = require('cors');
 const mongoose  = require('mongoose');
 const session   = require('express-session');
 const MongoStore= require('connect-mongo')(session);
+const log4js    = require('log4js');
+
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
@@ -16,14 +19,24 @@ app.use(session({
   store: new MongoStore({ 
     url: config.dbURL,
   })
-}))
+}));
+
+log4js.configure({
+  appenders: { app: { type: 'file', filename: 'main.log' } },
+  categories: { default: { appenders: ['app'], level: ['info'] } }
+});
+
+app.use(log4js.connectLogger(log4js.getLogger('app'), {level: 'auto'}));
+
+const log = log4js.getLogger('index');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbURL, config.dbOptions);
 mongoose.connection
    .once('open', () => {
      console.log("************************************");
-     console.log("Mongoose - successful connection ...");
+     console.log("Mongoose - successful connection for "+config.dbURL);
+     log.info("Mongoose - successful connection for "+config.dbURL);
 
      require('./routes/notesByCategoryes')(app);
      require('./routes/categoryes')(app);
@@ -31,8 +44,9 @@ mongoose.connection
     app.listen(process.env.PORT || config.port,
       () => {
         console.log("************************************");
-        console.log(`Server start on port ${config.port} ...`)})
+        console.log(`Server start on port ${config.port} ...`)});
+        log.info(`Server start on port ${config.port}`);
    })
-   .on('error', error => console.warn(error));
+   .on('error', error => log.error(error));
 
    

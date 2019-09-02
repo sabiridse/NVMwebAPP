@@ -1,5 +1,5 @@
 const notesByCategoryes = require('../models/notesByCategoryes')
-
+const log        = require('log4js').getLogger('notesByCategoryes');
 module.exports = function(app) {
 
 	app.post('/add_noteByCategory', (req, res) => {
@@ -16,6 +16,7 @@ module.exports = function(app) {
 						 });  
 			}			    
 						    if(errors.length!=0){//***если есть ошибки
+						    	log.info('failed add_noteByCategory');
 						   		res.send(errors);//***ответ с ошибками
 						   	} else {
 						   		res.send({
@@ -57,11 +58,12 @@ module.exports = function(app) {
 
 	app.put('/editNote/:id', (req, res) => {
 		notesByCategoryes.findById(req.params.id, 'plus minus', function (error, note) {
-		  if (error) { console.error(error); }
+		  if (error) { log.error(error); }
 		  note.plus =  req.body.plus;
 		  note.minus = req.body.minus;	
 		  note.save(err => {
 	        if (err) {
+	        	log.error(err);
 	          res.sendStatus(500)
 	        } else {
 	          res.sendStatus(200)

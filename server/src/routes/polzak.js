@@ -1,34 +1,15 @@
 const user = require('../models/polzak')
 const crypto = require('crypto')
+const log        = require('log4js').getLogger('polzak');
 module.exports = function(app) {
-	
-	// app.post('/login', function(req, res,next) {
-	// 	console.log(req.session)
-	// 	if (req.session.user) return res.send(req.session)
-	// 	checkUser(req.body)
-	// 		.then(function(user) {
-	// 			if (user) {
-	// 				req.session.user = {
-	// 									id: user._id,
-	// 									name: user.name
-	// 									};
-	// 				res.send('есть пользователь 200')
-	// 			} else {
-	// 				return next('hhhh')
-	// 			}
-	// 		})
-	// 		.catch(function (error){
-	// 			return next('e886')
-	// 		})
-
-	// });
 
 	app.post('/login', (req, res) => {
 
 	checkUser(req.body)
 		.then(function (user) {
-			if(user) {res.send(true)}
+			if(user) {log.info('user',req.body.name,'is authed'); res.send(true)}
 				else {
+					log.info('failed',req.body.name,'authing');
 					res.send(false)
 				}
 		})
@@ -40,6 +21,7 @@ module.exports = function(app) {
 			password: hash(req.body.pswd)
 		}
 		new user(polzak).save();
+		log.info('creatured new user',polzak.username);
 		res.send('done')
 	});
 }
@@ -50,7 +32,7 @@ function checkUser (userData) {
 		.then(function (doc) {
 			if (doc) {
 				return (doc.password == userData.pswd) ? true : false
-			} else return false
+			} else {log.info('no such user', userData.name); return false}
 		})
 }
 
@@ -58,16 +40,3 @@ function hash(text) {
 	return crypto.createHmac('sha256', 'abcdefg')
 	.update(text).digest('hex')
 }
-
-
-// function checkUser(userData) {		
-// 	return user
-// 		.findOne({username: userData.name})
-// 		.then(function(doc){
-// 			if ( doc.password == hash(userData.pswd) ){
-// 				return user
-// 			} else {
-// 				return null
-// 			}
-// 		})
-// }

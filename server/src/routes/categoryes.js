@@ -1,4 +1,5 @@
 const categoryes = require('../models/categoryes')
+const log        = require('log4js').getLogger('categoryes');
 
 module.exports = function(app) {
 
@@ -10,7 +11,8 @@ module.exports = function(app) {
 		if (req.body.status == 0) {
 		  	new_category.save(function (error) {//add new category(status=0)
 			    if (error) {
-			      res.send(error);
+			    	log.error(err);
+			      	res.send(error);
 			    } else
 			      res.send({
 			      success: true
@@ -19,6 +21,7 @@ module.exports = function(app) {
 		} 	else                                 //replace dateChecking(status=1)
 		  	categoryes.replaceOne({status:1},{category:req.body.category, status:1},function (error) {
 				if (error) {
+					log.error(err);
 				    res.send(error);
 				} else
 				      res.send({
@@ -30,8 +33,10 @@ module.exports = function(app) {
 
 	app.get('/selectAllCategoryes',(req,res) =>{
 		categoryes.find({},{_id:0}).sort({category: 1}).exec(function(err, allCategoryes) {
-	    if (err) throw err;
-	     	res.send(allCategoryes); 
+	    if (err) {log.error(err)} else {
+	    		log.info('selectAllCategoryes is done')
+	    		res.send(allCategoryes);
+	    }
 		});
 	});
 

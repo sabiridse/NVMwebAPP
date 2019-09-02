@@ -6,6 +6,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "build": "vue-cli-service build",
     "start": "nodemon --ext js --watch src"
   },
   "dependencies": {
@@ -18,9 +19,11 @@
     "express": "^4.16.3",
     "express-session": "^1.16.2",
     "https": "^1.0.0",
+    "log4js": "^5.1.0",
     "mongoose": "^5.6.5",
     "nodemon": "^1.18.4",
     "promise": "^8.0.1",
-    "sequelize": "^4.38.1"
+    "sequelize": "^4.38.1",
+    "winston": "^3.2.1"
   }
 }
