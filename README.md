@@ -2,24 +2,11 @@
 
 # Node.js + Vue.js + MongoDB project
 
-## Project setup
-```
-npm install in every folder in which there is package.json;
-```
+ДЕЙСТВУЮЩИЙ WEB проект: http://84.201.158.214:9090 (user: guest, parol: gue$t). 
+Конфигурация кластера в облаке: 
+OS серверов - Linux, 
+сервер БД - mongoDB, 
+сервера приложений(backend) - NodeJS, 
+WEB сервер (frontend) - Nginx.
+Разработка и сборка frontend - VUE JS.
 
-### Compiles and hot-reloads for development
-```
-npm run start (some scripts starting ALL sides: server & client);
-for start any one side reading package.json files in the side (server or client);
-Server side starting whith MongoDB;
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
