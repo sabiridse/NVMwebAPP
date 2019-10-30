@@ -1,16 +1,16 @@
-const config    = require('./config/config');
+const config    = require('./confic/confic');
 const express   = require('express');
-const bodyParser= require('body-parser');
 const cors      = require('cors');
+const bodyParser= require('body-parser');
 const mongoose  = require('mongoose');
 const session   = require('express-session');
 const MongoStore= require('connect-mongo')(session);
 const log4js    = require('log4js');
-
-
+const cookieParser = require('cookie-parser');
 const app = express();
+
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cookieParser('secret key'));
 
 app.use(session({
   secret: 'GzznmjlbygznM',
@@ -18,8 +18,24 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({ 
     url: config.dbURL,
-  })
+  }),
+  cookie:{
+    expires: new Date(Date.now() + config.timeLiveCookies),
+    httpOnly: true
+  }
 }));
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', config.httpHeaderOrigin);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.header('Access-Control-Allow-Methods','GET, POST, DELETE, OPTIONS');
+  if (req.method === "OPTIONS") {
+        res.status(200);
+      }
+  next();
+});
+
 
 log4js.configure({
   appenders: { app: { type: 'file', filename: 'main.log' } },
@@ -37,10 +53,10 @@ mongoose.connection
      console.log("************************************");
      console.log("Mongoose - successful connection for "+config.dbURL);
      log.info("Mongoose - successful connection for "+config.dbURL);
-
      require('./routes/notesByCategoryes')(app);
      require('./routes/categoryes')(app);
      require('./routes/polzak')(app);
+     
     app.listen(process.env.PORT || config.port,
       () => {
         console.log("************************************");

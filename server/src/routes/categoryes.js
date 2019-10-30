@@ -1,9 +1,18 @@
 const categoryes = require('../models/categoryes')
 const log        = require('log4js').getLogger('categoryes');
+const notesByCategoryes = require('../models/notesByCategoryes')
+const checkCookie = require('../middlewares/checkCookie')
 
 module.exports = function(app) {
 
-	app.post('/add_category', (req, res) => {
+	app.get('/selectAll',checkCookie,(req,res) =>{	
+				notesByCategoryes.find({}).exec(function(err, allNotes) {
+		    	if (err) throw err;
+		     	res.send(allNotes); 
+				});
+	});
+
+	app.post('/add_category', checkCookie,(req, res) => {
 	  var new_category = new categoryes({
 	    category:     req.body.category,
 	    status: 	  req.body.status
@@ -30,8 +39,7 @@ module.exports = function(app) {
 			})     		  			
 	});
 
-
-	app.get('/selectAllCategoryes',(req,res) =>{
+	app.get('/selectAllCategoryes',checkCookie, (req,res) =>{
 		categoryes.find({},{_id:0}).sort({category: 1}).exec(function(err, allCategoryes) {
 	    if (err) {log.error(err)} else {
 	    		log.info('selectAllCategoryes is done')
@@ -39,18 +47,4 @@ module.exports = function(app) {
 	    }
 		});
 	});
-
-	// app.delete('/delete_category/:category', (req, res) => {
-	// 	categoryes.remove({
-	// 	   category: req.params.category
-	// 	  }, function(err, note){
-	// 	    if (err){
-	// 	      res.send(err);
-	// 	    } else {
-	// 	      res.send({
-	// 	      success: true
-	// 	    })
-	// 	    }		    
-	// 	})
-	// });
 }

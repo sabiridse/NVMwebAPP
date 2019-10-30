@@ -27,7 +27,7 @@
   </v-data-table>
 </template>
 <script>
-import april from '../assets/april.json'
+//import april from '../assets/april.json'
 export default {
   data () {
     return {

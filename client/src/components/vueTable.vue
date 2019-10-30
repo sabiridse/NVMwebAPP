@@ -68,6 +68,7 @@ export default {
     eventbus.$on('searchReq', this.searchData)
 
     api.selectAll()
+    api.categoryList()
   },
   // watch: {
   //   "pagination": (newPage) => {

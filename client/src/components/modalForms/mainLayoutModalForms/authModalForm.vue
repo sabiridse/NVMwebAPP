@@ -27,7 +27,7 @@
               <v-card-actions>
                 <v-layout justify-center>
                   <v-btn :color="colorStatus" :disabled="!user.name" @click="signin">Войти</v-btn>
-                </v-layout>  
+                </v-layout>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -38,34 +38,33 @@
 <script>
 import api from '@/services/Controller'
 const crypto = require('crypto')
-  export default {
-    data () {
-        return {
-          user:{
-            name:null,
-            pswd:null
-          },
-          isAuth:false
-        }
-    },
-    methods: {
-      signin () {
-        api.checkUser({
-                        name: this.user.name,
-                        pswd: this.hash(this.user.pswd)
-                      })
-
+export default {
+  data () {
+    return {
+      user: {
+        name: null,
+        pswd: null
       },
-      hash(text) {
-        return crypto.createHmac('sha256', 'abcdefg')
-                     .update(text).digest('hex')
-}
-    },
-    computed: {
-      colorStatus (){
-        return this.$store.getters.getResultColorAuthForm
-      }
+      isAuth: false
     }
-
+  },
+  methods: {
+    signin () {
+      api.checkUser({
+        name: this.user.name,
+        pswd: this.hash(this.user.pswd)
+      })
+    },
+    hash (text) {
+      return crypto.createHmac('sha256', 'abcdefg')
+        .update(text).digest('hex')
+    }
+  },
+  computed: {
+    colorStatus () {
+      return this.$store.getters.getResultColorAuthForm
+    }
   }
+
+}
 </script>

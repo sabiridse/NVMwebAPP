@@ -1,8 +1,9 @@
+const checkCookie = require('../middlewares/checkCookie')
 const notesByCategoryes = require('../models/notesByCategoryes')
 const log        = require('log4js').getLogger('notesByCategoryes');
 module.exports = function(app) {
 
-	app.post('/add_noteByCategory', (req, res) => {
+	app.post('/add_noteByCategory', checkCookie,(req, res) => {
 			var errors =[];
 			for (i=0;i<req.body.length; i++) {
 				
@@ -25,14 +26,7 @@ module.exports = function(app) {
 						   	}
 	});
 
-	app.get('/selectAll',(req,res) =>{
-		notesByCategoryes.find({}).exec(function(err, allNotes) {
-	    if (err) throw err;
-	     	res.send(allNotes); 
-		});
-	});
-
-	app.delete('/deleteNote/:id', (req, res) => {
+	app.delete('/deleteNote/:id',checkCookie, (req, res) => {
 		notesByCategoryes.deleteOne({
 		   _id: req.params.id
 		  }, function(err, note){
@@ -46,7 +40,7 @@ module.exports = function(app) {
 		})
 	});
 
-	app.get('/note/:id', (req, res) => {
+	app.get('/note/:id', checkCookie,(req, res) => {
 	  notesByCategoryes.find({_id: req.params.id}, function (error, note) {
 	    if (error) {
 	      res.send(error)
@@ -56,7 +50,7 @@ module.exports = function(app) {
 	  })
 	});
 
-	app.put('/editNote/:id', (req, res) => {
+	app.put('/editNote/:id', checkCookie,(req, res) => {
 		notesByCategoryes.findById(req.params.id, 'plus minus', function (error, note) {
 		  if (error) { log.error(error); }
 		  note.plus =  req.body.plus;
@@ -71,17 +65,4 @@ module.exports = function(app) {
 	      })
 		})
 	})
-
-
-	// app.get('/contexSearch/:search', (req, res) => {
-	//   everyDaysNotes.find(
-	//   	{ $text: { $search: req.params.search } }
-	//   	, function (error, note) {
-	//     if (error) {
-	//       res.send(error)
-	//     } else {
-	//       res.send(note)
-	//     }	    
-	//   })
-	// });
 }

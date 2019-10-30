@@ -1,10 +1,10 @@
 <template>
    <v-app>
-    
+
       <keep-alive>
         <component v-bind:is="curientComponent"></component>
       </keep-alive>
-    
+
   </v-app>
 </template>
 <script>
@@ -13,15 +13,15 @@ import authModalForm from './components/modalForms/mainLayoutModalForms/authModa
 export default {
   data () {
     return {
-      
+
     }
   },
   components: {
     mainLayout,
     authModalForm
   },
-  computed:{
-    curientComponent (){
+  computed: {
+    curientComponent () {
       return this.$store.getters.getAppCurientComponent
     }
   }

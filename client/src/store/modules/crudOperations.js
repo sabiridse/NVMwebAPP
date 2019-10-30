@@ -93,7 +93,6 @@ export default {
     },
     SET_RESULT_COLOR_AUTH_FORM (state, color) {
       state.resultColorAuthForm = color
-
     }
   },
   getters: {
