@@ -29,7 +29,9 @@ export default {
 
   async deleteNote (id) {
     await Api().delete('/deleteNote/' + id, { withCredentials: true })
-    this.selectAll()
+        .catch(err => {console.log('err',err)});
+    // store.commit('SET_APP_CURIENT_COMPONENT', 'authModalForm');
+        this.selectAll();
   },
   async editNote (note) {
     await Api().put('/editNote/' + note._id, note, { withCredentials: true })
@@ -42,7 +44,8 @@ export default {
 			 	store.commit('ALL_LIST', response.data)
       })
       .catch(err => {
-        console.log('no connect to mongoDB: ' + err)
+        console.log('no connect to mongoDB: ' + err);
+
       })
   },
 
@@ -52,8 +55,8 @@ export default {
         if (!response.data) {
           store.commit('SET_RESULT_COLOR_AUTH_FORM', 'error')
         } else {
-          store.commit('SET_RESULT_COLOR_AUTH_FORM', 'success');
-          store.commit('SET_APP_CURIENT_COMPONENT', 'mainLayout');
+          store.commit('SET_RESULT_COLOR_AUTH_FORM', 'success')
+          store.commit('SET_APP_CURIENT_COMPONENT', 'mainLayout')
         }
       })
   }

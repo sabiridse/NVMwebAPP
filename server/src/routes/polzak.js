@@ -26,6 +26,15 @@ app.post('/login',(req, res) => {
 				}
 		})
 });
+// app.delete('/login',(req, res) => {
+// 					log.info('failed',req.body.name,'authing');
+// 					res.send(false)
+// });
+
+// app.get('/login',(req, res) => {
+// 					log.info('failed',req.body.name,'authing');
+// 					res.send(false)
+// });
 
 	app.post('/newpolzak',checkCookie,(req,res) => {
 		let polzak = {

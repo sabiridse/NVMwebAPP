@@ -26,6 +26,7 @@
     </v-data-table>
 </template>
 <script>
+
 import eventbus from '../plugins/eventbus.js'
 import api from '../services/Controller'
 

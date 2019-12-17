@@ -114,7 +114,7 @@ import hotPointsTable from './horPointsTable.vue'
 import statisticTable from './statisticTable.vue'
 import categoryStataTable from './categoryStataTable.vue'
 import statPanel from './statPanel.vue'
-import graphicsStat from './graphicsStat.vue'
+import checkOfJsonTable from './checkOfJsonTable.vue'
 
 import api from '../services/Controller'
 
@@ -143,7 +143,7 @@ export default {
     dataPickers,
     hotPointsTable,
     statisticTable,
-    graphicsStat,
+    checkOfJsonTable,
     categoryStataTable,
     vueTable,
     settingsModalForm,

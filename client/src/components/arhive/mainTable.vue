@@ -1,1 +1,0 @@
-https://rawcdn.githack.com/sabiridse/NVMwebAPP/54d9443724d23812c78a341ed98b9972a8d410d5/client/src/components/mainTable.vue

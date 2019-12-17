@@ -1,6 +1,6 @@
 module.exports={
     //port: 9092,//server start port for production GUEST
-    //port: 8082,//server start port for production GUEST
+    //port: 9082,//server start port for production
    	port: 80,  //server start port for local developing
 
 //***************************************************
@@ -11,7 +11,7 @@ module.exports={
 
 	httpHeaderOrigin:'http://localhost:8080',  //local developing cors http prop index.js
 	//httpHeaderOrigin:'http://localhost:9080',//PRODUCTION cors http prop index.js
-	//httpHeaderOrigin:'http://localhost:9090',//GUEST_PROD cors http prop index.js
+	//httpHeaderOrigin:'http://84.201.158.214:9090',//GUEST_PROD cors http prop index.js
 
 //***************************************************
 	
