@@ -10,7 +10,7 @@
     "start": "nodemon --ext js --watch src"
   },
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "connect-mongo": "^3.0.0",
